@@ -1,0 +1,6 @@
+vbox:
+                    style_prefix "radio"
+                    label _("Language")
+                    textbutton _("English") action Language(None)
+textbutton _("Español") action Language("esp")
+                    textbutton _("Chinese") text_font "SourceHanSansLite.ttf" action Language("chino")
