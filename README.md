@@ -1,0 +1,2 @@
+# renpytrans
+post translation renpy
