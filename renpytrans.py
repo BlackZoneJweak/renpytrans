@@ -132,6 +132,13 @@ elif eleg == "2":
 
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
+        
+    for dirpath, dirnames, filenames in os.walk(source_folder):
+        for filename in filenames:
+            if filename.endswith('.bak'):
+                filepath = os.path.join(dirpath, filename)
+                os.remove(filepath)
+        print(f"Eliminando archivo {filename}")
 
     rpy_files = []
     copied_files = 0
@@ -186,6 +193,13 @@ elif eleg == "3":
 
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
+    
+    for dirpath, dirnames, filenames in os.walk(source_folder):
+        for filename in filenames:
+            if filename.endswith('.bak'):
+                filepath = os.path.join(dirpath, filename)
+                os.remove(filepath)
+        print(f"Eliminando archivo {filename}")
 
     rpy_files = []
     copied_files = 0
