@@ -171,15 +171,6 @@ elif eleg == "3":
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     source_folder = os.path.join(script_dir, 'game', 'tl', 'chino')
-    script_dirs = []
-    for dirpath, dirnames, filenames in os.walk(source_folder):
-        if any(f.endswith('.rpy') for f in filenames):
-            script_dirs.append(dirpath)
-
-        if script_dirs:
-            scripts_dir = script_dirs[0]
-        else:
-            scripts_dir = source_folder
     destination_folder = 'g:\\projzv3\\traducir'
 
     if not os.path.exists(source_folder):
@@ -219,15 +210,14 @@ elif eleg == "3":
                 percent_complete = copied_files / total_rpy_files * 100
                 percent_remaining = 100 - percent_complete
                 print(
-                    f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
+                    f'Copied {copied_files}/{total_rpy_files} files ({percent_complete:.2f}% complete, {percent_remaining:.2f}% remaining)')
                 time.sleep(0.1)
 
-    for filename in os.listdir(scripts_dir):
+    for filename in os.listdir(source_folder):
         if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            # os.rename(os.path.join(scripts_dir, filename), os.path.join(scripts_dir, filename.split('.')[0] + '.rpy.bak'))
-            with open(os.path.join(scripts_dir, filename), 'w') as f:
-                f.write('')
-        print(f"Procesando archivo {filename}")
+            os.rename(os.path.join(source_folder, filename),
+                      os.path.join(source_folder, filename.split('.')[0] + '.rpy.bak'))
+            print(f"Procesando archivo {filename}")
 elif eleg == "4":
     import os
     import re
