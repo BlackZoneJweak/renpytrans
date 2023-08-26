@@ -45,7 +45,7 @@ if eleg == "1":
     total_archivos = len(os.listdir(folder))
     # bar = progressbar.ProgressBar(maxval=100)
     bar = progressbar.ProgressBar(maxval=total_archivos)
-    bar.start() 
+    bar.start()
     contador = 0
 
     for filename in os.listdir(folder):
@@ -58,19 +58,21 @@ if eleg == "1":
         if filename.endswith('.rpy'):
             with open(os.path.join(folder, filename), 'r', encoding="utf-8") as f:
                 text = f.read()
-                                        
-                cleaned = re.sub(r'</font><font style="vertical-align: inherit;">', '', text)
-                cleaned = re.sub(r'<font style="vertical-align: inherit;">', '', cleaned)
+
+                cleaned = re.sub(
+                    r'</font><font style="vertical-align: inherit;">', '', text)
+                cleaned = re.sub(
+                    r'<font style="vertical-align: inherit;">', '', cleaned)
                 cleaned = re.sub(r'？', '?', cleaned)
                 cleaned = re.sub(r'。', '.', cleaned)
-                cleaned = re.sub(r'！', '!', cleaned)  
+                cleaned = re.sub(r'！', '!', cleaned)
                 cleaned = re.sub(r'“', '"', cleaned)
                 cleaned = re.sub(r'”', '"', cleaned)
                 cleaned = re.sub(r'：', ':', cleaned)
                 cleaned = re.sub(r'，', ',', cleaned)
                 cleaned = re.sub(r'（', '(', cleaned)
                 cleaned = re.sub(r'）', ')', cleaned)
-                cleaned = re.sub(r'</font>', '', cleaned)  
+                cleaned = re.sub(r'</font>', '', cleaned)
                 cleaned = re.sub(r'<td>', '', cleaned)
                 cleaned = re.sub(r'</td>', '', cleaned)
                 cleaned = re.sub(r'<tr>', '', cleaned)
@@ -78,38 +80,39 @@ if eleg == "1":
                 cleaned = re.sub(r'{i}', '', cleaned)
                 cleaned = re.sub(r'{/i}', '', cleaned)
                 cleaned = re.sub(r'@@', '', cleaned)
-                
+
                 patron = r'\\.+?"'
                 resultados = re.findall(patron, cleaned)
                 for resultado in resultados:
-                    cleaned = cleaned.replace(resultado, '@^' + resultado) 
-                        
+                    cleaned = cleaned.replace(resultado, '@^' + resultado)
+
                 time.sleep(0.5)
                 contador += 1
                 bar.update(contador)
-                
+
             with open(os.path.join(folder, 'cleaned_'+filename), 'w', encoding="utf-8") as f:
                 f.write(cleaned)
     print("\n")
     for filename in os.listdir(folder):
         if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            os.rename(os.path.join(folder, filename), 
-                    os.path.join(folder, filename.split('.')[0] + '.rpy.bak'))
+            os.rename(os.path.join(folder, filename),
+                      os.path.join(folder, filename.split('.')[0] + '.rpy.bak'))
             print(f"Procesando archivo {filename}")
     print("\n")
     for filename in os.listdir(folder):
         if filename.startswith('cleaned_'):
             cleaned_name = filename
             original_name = filename.replace('cleaned_', '')
-            os.rename(os.path.join(folder, cleaned_name), os.path.join(folder, original_name))
+            os.rename(os.path.join(folder, cleaned_name),
+                      os.path.join(folder, original_name))
             print(f"cambiando nombre de archivo {filename}")
-    
+
     end_time = time.time()
     print(f"Tiempo de ejecución: {round(end_time - start_time, 2)} segundos")
     print("Procesamiento de archivos .rpy finalizado")
 elif eleg == "2":
     import os
-    import shutil 
+    import shutil
     import time
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -118,9 +121,10 @@ elif eleg == "2":
 
     if not os.path.exists(source_folder):
         print("Carpeta origen no encontrada")
-        
+
     if os.path.exists(destination_folder):
-        print(f"La carpeta {destination_folder} no está vacía. ¿Desea borrar el contenido antes de copiar? (s/n)")
+        print(
+            f"La carpeta {destination_folder} no está vacía. ¿Desea borrar el contenido antes de copiar? (s/n)")
         if input().lower() != "s":
             print("Copia cancelada")
             exit()
@@ -136,8 +140,8 @@ elif eleg == "2":
         for file in files:
             if file.endswith('.rpy'):
                 rpy_files.append(file)
-            
-    total_rpy_files = len(rpy_files)  
+
+    total_rpy_files = len(rpy_files)
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
@@ -151,17 +155,18 @@ elif eleg == "2":
                 copied_files += 1
                 percent_complete = copied_files / total_rpy_files * 100
                 percent_remaining = 100 - percent_complete
-                print(f'Copied {copied_files}/{total_rpy_files} files ({percent_complete:.2f}% complete, {percent_remaining:.2f}% remaining)')
+                print(
+                    f'Copied {copied_files}/{total_rpy_files} files ({percent_complete:.2f}% complete, {percent_remaining:.2f}% remaining)')
                 time.sleep(0.1)
-                
+
     for filename in os.listdir(source_folder):
         if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            os.rename(os.path.join(source_folder, filename), 
-                    os.path.join(source_folder, filename.split('.')[0] + '.rpy.bak'))
+            os.rename(os.path.join(source_folder, filename),
+                      os.path.join(source_folder, filename.split('.')[0] + '.rpy.bak'))
             print(f"Procesando archivo {filename}")
 elif eleg == "3":
     import os
-    import shutil 
+    import shutil
     import time
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -172,16 +177,17 @@ elif eleg == "3":
             script_dirs.append(dirpath)
 
         if script_dirs:
-            scripts_dir = script_dirs[0] 
+            scripts_dir = script_dirs[0]
         else:
             scripts_dir = source_folder
     destination_folder = 'g:\\projzv3\\traducir'
 
     if not os.path.exists(source_folder):
         print("Carpeta origen no encontrada")
-    
+
     if os.path.exists(destination_folder):
-        print(f"La carpeta {destination_folder} no está vacía. ¿Desea borrar el contenido antes de copiar? (s/n)")
+        print(
+            f"La carpeta {destination_folder} no está vacía. ¿Desea borrar el contenido antes de copiar? (s/n)")
         if input().lower() != "s":
             print("Copia cancelada")
             exit()
@@ -197,8 +203,8 @@ elif eleg == "3":
         for file in files:
             if file.endswith('.rpy'):
                 rpy_files.append(file)
-            
-    total_rpy_files = len(rpy_files)  
+
+    total_rpy_files = len(rpy_files)
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
@@ -212,13 +218,16 @@ elif eleg == "3":
                 copied_files += 1
                 percent_complete = copied_files / total_rpy_files * 100
                 percent_remaining = 100 - percent_complete
-                print(f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
+                print(
+                    f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
                 time.sleep(0.1)
-    
+
     for filename in os.listdir(scripts_dir):
         if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            os.rename(os.path.join(scripts_dir, filename), os.path.join(scripts_dir, filename.split('.')[0] + '.rpy.bak'))
-            print(f"Procesando archivo {filename}")
+            # os.rename(os.path.join(scripts_dir, filename), os.path.join(scripts_dir, filename.split('.')[0] + '.rpy.bak'))
+            with open(os.path.join(scripts_dir, filename), 'w') as f:
+                f.write('')
+        print(f"Procesando archivo {filename}")
 elif eleg == "4":
     import os
     import re
@@ -232,7 +241,7 @@ elif eleg == "4":
 
     total_archivos = len(os.listdir(folder))
     bar = progressbar.ProgressBar(maxval=100)
-    bar.start() 
+    bar.start()
     contador = 0
 
     for dirpath, dirnames, filenames in os.walk(folder):
@@ -243,20 +252,19 @@ elif eleg == "4":
         print(f"Eliminando archivo {filename}")
 
     contador += 1
-    porcentaje = int(contador / total_archivos * 100) 
+    porcentaje = int(contador / total_archivos * 100)
 
-            
     end_time = time.time()
     print(f"Tiempo de ejecución: {round(end_time - start_time, 2)} segundos")
     # print("Procesamiento de archivos .rpy finalizado")
     print("Archivos .bak eliminados")
-    bar.update(porcentaje)    
+    bar.update(porcentaje)
 elif eleg == "5":
     import os
     import shutil
     import time
 
-    folder = os.path.dirname(os.path.abspath(__file__)) 
+    folder = os.path.dirname(os.path.abspath(__file__))
 
     print("Comenzando procesamiento de archivos .rpy a .bak...")
     start_time = time.time()
@@ -267,7 +275,7 @@ elif eleg == "5":
             dst = src + '.bak'
             shutil.move(src, dst)
             print(f'Renombrado {src} a {dst}')
-        
+
     end_time = time.time()
     print(f"Tiempo de ejecución: {round(end_time - start_time, 2)} segundos")
     print("Procesamiento de archivos .rpy finalizado")
@@ -284,7 +292,7 @@ elif eleg == "6":
 
     total_archivos = len(os.listdir(folder))
     bar = progressbar.ProgressBar(maxval=100)
-    bar.start() 
+    bar.start()
     contador = 0
 
     for root, dirs, files in os.walk(folder):
@@ -296,13 +304,12 @@ elif eleg == "6":
                 print(f'Backed up {src} to {dst}')
 
     contador += 1
-    porcentaje = int(contador / total_archivos * 100) 
+    porcentaje = int(contador / total_archivos * 100)
 
-            
     end_time = time.time()
     print(f"Tiempo de ejecución: {round(end_time - start_time, 2)} segundos")
     print("Procesamiento de archivos .rpy finalizado")
-    bar.update(porcentaje)    
+    bar.update(porcentaje)
 elif eleg == "7":
     import curses
     import time
@@ -315,9 +322,9 @@ elif eleg == "7":
     total = 200
 
     width = stdscr.getmaxyx()[1] - 20
-    
-    stdscr.addstr(0, 0, 'Progreso: ') 
-    
+
+    stdscr.addstr(0, 0, 'Progreso: ')
+
     for i in range(total):
 
         keyboard.press('pagedown')
@@ -328,9 +335,9 @@ elif eleg == "7":
         stdscr.addstr(1, 0, '[' + '='*i + '>' + '-'*(total-i) + ']')
 
         done = i+1
-        
+
         contador = str(done).zfill(len(str(total))) + '/' + str(total)
-        
+
         stdscr.addstr(4, 0, contador)
 
         stdscr.refresh()
@@ -340,7 +347,7 @@ elif eleg == "7":
     curses.endwin()
 elif eleg == "8":
     import os
-    import shutil 
+    import shutil
     import time
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -349,9 +356,10 @@ elif eleg == "8":
 
     if not os.path.exists(source_folder):
         print("Carpeta origen no encontrada")
-    
+
     if os.path.exists(destination_folder):
-        print(f"La carpeta {destination_folder} no está vacía. ¿Desea borrar el contenido antes de copiar? (s/n)")
+        print(
+            f"La carpeta {destination_folder} no está vacía. ¿Desea borrar el contenido antes de copiar? (s/n)")
         if input().lower() != "s":
             print("Copia cancelada")
             exit()
@@ -367,8 +375,8 @@ elif eleg == "8":
         for file in files:
             if file.endswith('.rpy'):
                 rpy_files.append(file)
-            
-    total_rpy_files = len(rpy_files)  
+
+    total_rpy_files = len(rpy_files)
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
@@ -382,11 +390,12 @@ elif eleg == "8":
                 copied_files += 1
                 percent_complete = copied_files / total_rpy_files * 100
                 percent_remaining = 100 - percent_complete
-                print(f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
+                print(
+                    f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
                 time.sleep(0.1)
 elif eleg == "9":
     import os
-    import shutil 
+    import shutil
     import time
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -395,9 +404,10 @@ elif eleg == "9":
 
     if not os.path.exists(source_folder):
         print("Carpeta origen no encontrada")
-    
+
     if os.path.exists(destination_folder):
-        print(f"La carpeta {destination_folder} no está vacía. ¿Desea borrar el contenido antes de copiar? (s/n)")
+        print(
+            f"La carpeta {destination_folder} no está vacía. ¿Desea borrar el contenido antes de copiar? (s/n)")
         if input().lower() != "s":
             print("Copia cancelada")
             exit()
@@ -413,8 +423,8 @@ elif eleg == "9":
         for file in files:
             if file.endswith('.rpy'):
                 rpy_files.append(file)
-            
-    total_rpy_files = len(rpy_files)  
+
+    total_rpy_files = len(rpy_files)
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
@@ -428,10 +438,11 @@ elif eleg == "9":
                 copied_files += 1
                 percent_complete = copied_files / total_rpy_files * 100
                 percent_remaining = 100 - percent_complete
-                print(f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
+                print(
+                    f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
                 time.sleep(0.1)
 elif eleg == "10":
     print(f"Tiempo de ejecución: {end_time - start_time:.2f} segundos")
 else:
     print("Opción no es valido")
-    exec(open("renpytrans.py",encoding="utf-8").read())
+    exec(open("renpytrans.py", encoding="utf-8").read())
