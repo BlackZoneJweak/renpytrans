@@ -9,7 +9,10 @@
 7) Page down 200sec || 自動page down 200sec
 8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir || 拷貝esp裡的所有.rpy到antigua
 9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir || 拷貝chino裡的所有.rpy到antigua
-10) mejorando el verificar caracteres
+10) buscar []
+11) buscar {}
+12) Separar el .rpy en varios archivos
+13) Nada aun
 """
 # imprimimos el menú en pantalla
 print("\033[36m")
@@ -24,7 +27,10 @@ print("""
 7) Page down 200sec \033[32m||\033[0m \033[31m自動page down 200sec\033[0m
 8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
 9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
-10) Nada aun
+10) buscar []
+11) buscar {}
+12) Separar el .rpy en varios archivos
+13) Nada aun
 """)
 print("\033[0m")
 
@@ -77,8 +83,8 @@ if eleg == "1":
                 cleaned = re.sub(r'</td>', '', cleaned)
                 cleaned = re.sub(r'<tr>', '', cleaned)
                 cleaned = re.sub(r'</tr>', '', cleaned)
-                cleaned = re.sub(r'{i}', '', cleaned)
-                cleaned = re.sub(r'{/i}', '', cleaned)
+                # cleaned = re.sub(r'{i}', '', cleaned)
+                # cleaned = re.sub(r'{/i}', '', cleaned)
                 cleaned = re.sub(r'@@', '', cleaned)
 
                 patron = r'\\.+?"'
@@ -446,7 +452,67 @@ elif eleg == "9":
                     f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
                 time.sleep(0.1)
 elif eleg == "10":
-    print(f"Tiempo de ejecución: {end_time - start_time:.2f} segundos")
+    import re
+    matches_by_line = {}
+    with open('added content.rpy',encoding="utf-8") as f:
+        for i, line in enumerate(f):
+            matches = re.findall(r'\[.*?\]', line)
+            if matches:
+                matches_by_line[i+1] = matches
+    
+    with open('resultado.txt', 'w',encoding="utf-8") as f:
+        for line, matches in matches_by_line.items():
+            for match in matches:
+                f.write(f'Encontrado en la línea {line} {match} \n')
+                print(f'Encontrado en la línea {line} {match} \n')
+
+    print(f'Se encontraron {len(matches)} ocurrencias de []')
+    print(f'Resultados guardados en resultado.txt')
+elif eleg == "11":
+    import re
+
+    matches_by_line = {}
+    
+    with open('added content.rpy',encoding="utf-8") as f:
+        for i, line in enumerate(f):
+            matches = re.findall(r'\{.*?\}', line)
+            if matches:
+                matches_by_line[i+1] = matches
+    
+    with open('resultadollave.txt', 'w',encoding="utf-8") as f:
+        for line, matches in matches_by_line.items():
+            for match in matches:
+                f.write(f'Encontrado en la línea {line} {match} \n')
+                print(f'Encontrado en la línea {line} {match} \n')
+
+    print(f'Se encontraron {len(matches)} ocurrencias de ')
+    print(f'Resultados guardados en resultado.txt')
+elif eleg == "12":
+    import os
+
+    secuencia = 1
+    conteo_lineas = 0 
+    archivo_salida = open(f"secuencia{str(secuencia).zfill(4)}.rpy", "w",encoding="utf-8")
+
+    with open("story.rpy") as archivo:
+        for linea in archivo:
+            if conteo_lineas == 5000:
+                archivo_salida.close()
+                secuencia += 1
+                conteo_lineas = 0
+                archivo_salida = open(f"secuencia{str(secuencia).zfill(4)}.rpy", "w",encoding="utf-8")
+                print(linea)
+                
+            archivo_salida.write(linea)
+            conteo_lineas += 1
+
+    archivo_salida.close()
+elif eleg == "13":
+    print("ok13")
+elif eleg == "14":
+    print("ok14")
+elif eleg == "15":
+    print("ok15")
 else:
     print("Opción no es valido")
     exec(open("renpytrans.py", encoding="utf-8").read())
