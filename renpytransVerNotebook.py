@@ -452,41 +452,49 @@ elif eleg == "9":
                     f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
                 time.sleep(0.1)
 elif eleg == "10":
+    import os
     import re
-    matches_by_line = {}
-    with open('added content.rpy',encoding="utf-8") as f:
-        for i, line in enumerate(f):
-            matches = re.findall(r'\[.*?\]', line)
-            if matches:
-                matches_by_line[i+1] = matches
     
-    with open('resultado.txt', 'w',encoding="utf-8") as f:
-        for line, matches in matches_by_line.items():
-            for match in matches:
-                f.write(f'Encontrado en la línea {line} {match} \n')
-                print(f'Encontrado en la línea {line} {match} \n')
-
-    print(f'Se encontraron {len(matches)} ocurrencias de []')
-    print(f'Resultados guardados en resultado.txt')
+    for filename in os.listdir('.'):
+        if filename.endswith('.rpy'):
+            matches_by_line = {}
+            
+            with open(filename,encoding="utf-8") as f:
+                for i, line in enumerate(f):
+                    matches = re.findall(r'\[.*?\]', line)
+                    if matches:
+                        matches_by_line[i+1] = matches
+            
+            result_filename = filename + 'resulcomi.txt'
+            with open(result_filename, 'w',encoding="utf-8") as f:
+                for line, matches in matches_by_line.items():
+                    for match in matches:
+                        f.write(f'Encontrado en la línea {line} {match}\n')
+                        print(f'Encontrado en la línea {line} {match} \n')
+                        
+            print(f'Resultados para {filename} guardados en {result_filename}')
 elif eleg == "11":
+    import os
     import re
-
-    matches_by_line = {}
     
-    with open('added content.rpy',encoding="utf-8") as f:
-        for i, line in enumerate(f):
-            matches = re.findall(r'\{.*?\}', line)
-            if matches:
-                matches_by_line[i+1] = matches
-    
-    with open('resultadollave.txt', 'w',encoding="utf-8") as f:
-        for line, matches in matches_by_line.items():
-            for match in matches:
-                f.write(f'Encontrado en la línea {line} {match} \n')
-                print(f'Encontrado en la línea {line} {match} \n')
-
-    print(f'Se encontraron {len(matches)} ocurrencias de ')
-    print(f'Resultados guardados en resultado.txt')
+    for filename in os.listdir('.'):
+        if filename.endswith('.rpy'):
+            matches_by_line = {}
+            
+            with open(filename,encoding="utf-8") as f:
+                for i, line in enumerate(f):
+                    matches = re.findall(r'\{.*?\}', line)
+                    if matches:
+                        matches_by_line[i+1] = matches
+            
+            result_filename = filename + 'resulllave.txt'
+            with open(result_filename, 'w',encoding="utf-8") as f:
+                for line, matches in matches_by_line.items():
+                    for match in matches:
+                        f.write(f'Encontrado en la línea {line} {match}\n')
+                        print(f'Encontrado en la línea {line} {match} \n')
+                        
+            print(f'Resultados para {filename} guardados en {result_filename}')
 elif eleg == "12":
     import os
 
