@@ -12,7 +12,9 @@
 10) buscar []
 11) buscar {}
 12) Separar el .rpy en varios archivos
-13) Nada aun
+13) buscar ()
+14) Reemplazar commam
+15) Nada aun
 """
 # imprimimos el menú en pantalla
 print("\033[36m")
@@ -30,7 +32,9 @@ print("""
 10) buscar []
 11) buscar {}
 12) Separar el .rpy en varios archivos
-13) Nada aun
+13) buscar ()
+14) Reemplazar commam
+15) Nada aun
 """)
 print("\033[0m")
 
@@ -138,7 +142,7 @@ elif eleg == "2":
 
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
-        
+
     for dirpath, dirnames, filenames in os.walk(source_folder):
         for filename in filenames:
             if filename.endswith('.bak'):
@@ -199,7 +203,7 @@ elif eleg == "3":
 
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
-    
+
     for dirpath, dirnames, filenames in os.walk(source_folder):
         for filename in filenames:
             if filename.endswith('.bak'):
@@ -338,9 +342,9 @@ elif eleg == "7":
     for i in range(total):
 
         keyboard.press('pagedown')
-        time.sleep(1.5)
+        time.sleep(3)
         keyboard.press('pagedown')
-        time.sleep(1.5)
+        time.sleep(3)
 
         stdscr.addstr(1, 0, '[' + '='*i + '>' + '-'*(total-i) + ']')
 
@@ -454,53 +458,89 @@ elif eleg == "9":
 elif eleg == "10":
     import os
     import re
-    
+
     for filename in os.listdir('.'):
         if filename.endswith('.rpy'):
             matches_by_line = {}
-            
-            with open(filename,encoding="utf-8") as f:
+
+            total_matches = 0
+
+            with open(filename, encoding="utf-8") as f:
                 for i, line in enumerate(f):
                     matches = re.findall(r'\[.*?\]', line)
                     if matches:
                         matches_by_line[i+1] = matches
-            
+
             result_filename = filename + 'resulcomi.txt'
-            with open(result_filename, 'w',encoding="utf-8") as f:
+            with open(result_filename, 'w', encoding="utf-8") as f:
                 for line, matches in matches_by_line.items():
                     for match in matches:
                         f.write(f'Encontrado en la línea {line} {match}\n')
+                        total_matches += 1
                         print(f'Encontrado en la línea {line} {match} \n')
-                        
+
             print(f'Resultados para {filename} guardados en {result_filename}')
+            print(f'Total de matches []: {total_matches}')
 elif eleg == "11":
     import os
     import re
-    
+
     for filename in os.listdir('.'):
         if filename.endswith('.rpy'):
             matches_by_line = {}
-            
-            with open(filename,encoding="utf-8") as f:
+
+            total_matches = 0
+
+            with open(filename, encoding="utf-8") as f:
                 for i, line in enumerate(f):
                     matches = re.findall(r'\{.*?\}', line)
                     if matches:
                         matches_by_line[i+1] = matches
-            
+
             result_filename = filename + 'resulllave.txt'
-            with open(result_filename, 'w',encoding="utf-8") as f:
+            with open(result_filename, 'w', encoding="utf-8") as f:
                 for line, matches in matches_by_line.items():
                     for match in matches:
                         f.write(f'Encontrado en la línea {line} {match}\n')
+                        total_matches += 1
                         print(f'Encontrado en la línea {line} {match} \n')
-                        
+
             print(f'Resultados para {filename} guardados en {result_filename}')
+            print(f'Total de matches []: {total_matches}')
 elif eleg == "12":
+    import os
+    import re
+
+    for filename in os.listdir('.'):
+        if filename.endswith('.rpy'):
+            matches_by_line = {}
+
+            total_matches = 0
+
+            with open(filename, encoding="utf-8") as f:
+                for i, line in enumerate(f):
+                    matches = re.findall(r'\(.*?\)', line)
+                    if matches:
+                        matches_by_line[i+1] = matches
+
+            result_filename = filename + 'resulllave1.txt'
+            with open(result_filename, 'w', encoding="utf-8") as f:
+                for line, matches in matches_by_line.items():
+                    for match in matches:
+                        f.write(f'Encontrado en la línea {line} {match}\n')
+                        total_matches += 1
+                        print(f'Encontrado en la línea {line} {match} \n')
+
+            print(f'Resultados para {filename} guardados en {result_filename}')
+            print(f'Total de matches []: {total_matches}')
+elif eleg == "13":
+    # ese tiene que cambiar manual el archivo que va separar
     import os
 
     secuencia = 1
-    conteo_lineas = 0 
-    archivo_salida = open(f"secuencia{str(secuencia).zfill(4)}.rpy", "w",encoding="utf-8")
+    conteo_lineas = 0
+    archivo_salida = open(
+        f"secuencia{str(secuencia).zfill(4)}.rpy", "w", encoding="utf-8")
 
     with open("story.rpy") as archivo:
         for linea in archivo:
@@ -508,17 +548,39 @@ elif eleg == "12":
                 archivo_salida.close()
                 secuencia += 1
                 conteo_lineas = 0
-                archivo_salida = open(f"secuencia{str(secuencia).zfill(4)}.rpy", "w",encoding="utf-8")
+                archivo_salida = open(
+                    f"secuencia{str(secuencia).zfill(4)}.rpy", "w", encoding="utf-8")
                 print(linea)
-                
+
             archivo_salida.write(linea)
             conteo_lineas += 1
 
     archivo_salida.close()
-elif eleg == "13":
-    print("ok13")
 elif eleg == "14":
-    print("ok14")
+    import re
+
+    archivo = "common.rpy"
+
+    cambios = {
+        r"\[texto\]": "[text]",
+        r"\[índice\]": "[index]",
+        r"\[recuento\]": "[count]",
+        r"\[problema\]": "[problem]",
+        r"\[nombre\]": "[name]",
+        r"\[tipo\]": "[kind]"
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
 elif eleg == "15":
     print("ok15")
 else:
