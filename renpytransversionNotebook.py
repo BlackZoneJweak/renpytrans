@@ -1,40 +1,50 @@
 # -*- coding: utf-8 -*-
 """
-1) Verificar caracteres especiales || 檢查特殊字元  
-2) Copiar todos archivos .rpy y renombrar a .bak que esta en esp a la carpeta projzv3 traducir || 拷貝esp裡的所有.rpy跟重新命名.bak
-3) Copiar todos archivos .rpy y renombrar a .bak que esta en chino a la carpeta projzv3 traducir || 拷貝chino裡的所有.rpy跟重新命名.bak 
-4) Eliminar completo .bak en toda las carpetas || 移除所有資料夾.bak
-5) Renombrar .rpy a .bak solo una carpeta || 只備份單一資料夾.rpy到.bak
-6) Hacer copia .rpy a .bak todas las carpetas || 備份所有資料夾.rpy到.bak
-7) Page down 200sec || 自動page down 200sec
-8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir || 拷貝esp裡的所有.rpy到antigua
-9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir || 拷貝chino裡的所有.rpy到antigua
+1) Verificar caracteres especiales \033[32m||\033[0m \033[31m檢查特殊字元\033[0m  
+2) Copiar todos archivos .rpy que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m拷貝esp裡的所有.rpy\033[0m
+3) Copiar todos archivos .rpy que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m拷貝chino裡的所有.rpy\033[0m 
+4) Eliminar completo .bak en toda las carpetas \033[32m||\033[0m \033[31m移除所有資料夾.bak\033[0m
+5) Renombrar .rpy a .bak solo una carpeta \033[32m||\033[0m \033[31m只備份單一資料夾.rpy到.bak\033[0m
+6) Hacer copia .rpy a .bak todas las carpetas \033[32m||\033[0m \033[31m備份所有資料夾.rpy到.bak\033[0m
+7) Page down 200sec \033[32m||\033[0m \033[31m自動page down 200sec\033[0m
+8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
+9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
 10) buscar []
 11) buscar {}
 12) buscar ()
 13) Separar el .rpy en varios archivos
-14) Reemplazar commam
-15) Nada aun
+14) Reemplazar commam ESP
+15) Reemplazar commam CHT
+16) Nada aun
+17) Nada aun
+18) Nada aun
+19) Nada aun
+20) Nada aun
 """
 # imprimimos el menú en pantalla
 print("\033[36m")
 
 print("""
-1) Verificar caracteres especiales || 檢查特殊字元  
-2) Copiar todos archivos .rpy y renombrar a .bak que esta en esp a la carpeta projzv3 traducir || 拷貝esp裡的所有.rpy跟重新命名.bak
-3) Copiar todos archivos .rpy y renombrar a .bak que esta en chino a la carpeta projzv3 traducir || 拷貝chino裡的所有.rpy跟重新命名.bak 
-4) Eliminar completo .bak en toda las carpetas || 移除所有資料夾.bak
-5) Renombrar .rpy a .bak solo una carpeta || 只備份單一資料夾.rpy到.bak
-6) Hacer copia .rpy a .bak todas las carpetas || 備份所有資料夾.rpy到.bak
-7) Page down 200sec || 自動page down 200sec
-8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir || 拷貝esp裡的所有.rpy到antigua
-9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir || 拷貝chino裡的所有.rpy到antigua
+1) Verificar caracteres especiales \033[32m||\033[0m \033[31m檢查特殊字元\033[0m  
+2) Copiar todos archivos .rpy que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m拷貝esp裡的所有.rpy\033[0m
+3) Copiar todos archivos .rpy que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m拷貝chino裡的所有.rpy\033[0m 
+4) Eliminar completo .bak en toda las carpetas \033[32m||\033[0m \033[31m移除所有資料夾.bak\033[0m
+5) Renombrar .rpy a .bak solo una carpeta \033[32m||\033[0m \033[31m只備份單一資料夾.rpy到.bak\033[0m
+6) Hacer copia .rpy a .bak todas las carpetas \033[32m||\033[0m \033[31m備份所有資料夾.rpy到.bak\033[0m
+7) Page down 200sec \033[32m||\033[0m \033[31m自動page down 200sec\033[0m
+8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
+9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
 10) buscar []
 11) buscar {}
 12) buscar ()
 13) Separar el .rpy en varios archivos
-14) Reemplazar commam
-15) Nada aun
+14) Reemplazar commam ESP
+15) Reemplazar commam CHT
+16) Buscar dirección de google drive
+17) Nada aun
+18) Nada aun
+19) Nada aun
+20) Nada aun
 """)
 print("\033[0m")
 
@@ -582,7 +592,88 @@ elif eleg == "14":
         for l in lineas:
             f.write(l)
 elif eleg == "15":
-    print("ok15")
+    import re
+
+    archivo = "common.rpy"
+
+    with open(archivo, "r", encoding="utf-8") as f:
+        contenido = f.read()
+    
+    cambios = {
+        r"\[文本\]": "[text]",
+        r"\[计数\]": "[index]",
+        r"\[索引\]": "[count]",
+        r"\[问题\]": "[problem]",
+        r"\[名称\]": "[name]",
+        r"\[种类\]": "[kind]",
+        r"\[总计\]": "[total]",
+        r'"\[控件!s\]"': "'[control!s]'",
+        r'new "{#weekday_short}Tue"': 'new "{#weekday_short}週二"',
+        r'new "{#weekday_short}Thu"': 'new "{#weekday_short}週四"',
+        r'new "{#weekday_short}卫星"': 'new "{#weekday_short}週六"',
+        r'new "{#weekday_short}Sun"': 'new "{#weekday_short}週日"',
+        r'new "{#month_short}Jan"': 'new "{#month_short}一月"',
+        r'new "{#month_short}Mar"': 'new "{#month_short}三月"',
+        r'new "{#month_short}Jun"': 'new "{#month_short}六月"',
+        r'new "{#month_short}Jul"': 'new "{#month_short}七月"',
+        r'new "{#month_short}Sep"': 'new "{#month_short}九月"',
+        r'new "{#month_short}Oct"': 'new "{#month_short}十月"',
+        r'new "{#month_short}Nov"': 'new "{#month_short}十一月"',
+        r'new "{#month_short}Dec"': 'new "{#month_short}十二月"',
+        r'"shift\+C"': "'shift+C'",
+        r'"alt\+shift\+V"': "'alt+shift+V'",
+        r'"v"': "'v'",
+        r'"是"': "'是'"
+    }
+
+    # Hacer reemplazos en todo el contenido
+    for buscar, reemplazar in cambios.items():
+        contenido = re.sub(buscar, reemplazar, contenido)
+
+    # Volver a escribir el contenido modificado
+    with open(archivo, "w", encoding="utf-8") as f:
+        f.write(contenido)
+        print(contenido)
+    """ lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l) """
+elif eleg == "16":
+    import re
+
+    with open('verificar.txt',"r", encoding="utf-8") as f:
+        for line in f:
+            match = re.search(r'(href=".*?")', line)
+            if match:
+                url = match.group(1) 
+                print(url)
+                with open('urls.txt', 'a') as f2:
+                    f2.write(url + '\n')
+    
+    with open('urls.txt', "r", encoding="utf-8") as f:
+        for line in f:
+            match = re.search(r'https?://drive\.google\.com/[^"]*', line)
+            if match:
+                url = match.group(0)
+                
+                with open('urlssolo.txt', 'a') as f2:
+                        f2.write(url + '\n')
+                        print(url)
+elif eleg == "17":
+    print("ok17")
+elif eleg == "18":
+    print("ok18")
+elif eleg == "19":
+    print("ok19")
+elif eleg == "20":
+    print("ok20")
 else:
     print("Opción no es valido")
     exec(open("renpytrans.py", encoding="utf-8").read())
