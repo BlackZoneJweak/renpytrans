@@ -153,44 +153,27 @@ elif eleg == "2":
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
 
-    for dirpath, dirnames, filenames in os.walk(source_folder):
-        for filename in filenames:
-            if filename.endswith('.bak'):
-                filepath = os.path.join(dirpath, filename)
-                os.remove(filepath)
-        print(f"Eliminando archivo {filename}")
-
-    rpy_files = []
+    total_files = 0
     copied_files = 0
 
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
-                rpy_files.append(file)
-
-    total_rpy_files = len(rpy_files)
-    for root, dirs, files in os.walk(source_folder):
-        for file in files:
-            if file.endswith('.rpy'):
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, file)
+                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
                 print(f'Copying {file}')
                 try:
-                    shutil.copy(source_path, destination_path)
+                    shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                percent_complete = copied_files / total_rpy_files * 100
+                percent_complete = copied_files / total_files * 100
                 percent_remaining = 100 - percent_complete
                 print(
-                    f'Copied {copied_files}/{total_rpy_files} files ({percent_complete:.2f}% complete, {percent_remaining:.2f}% remaining)')
+                    f'Copied {copied_files}/{total_files} files ({percent_complete:.2f}% complete, {percent_remaining:.2f}% remaining)')
                 time.sleep(0.1)
 
-    for filename in os.listdir(source_folder):
-        if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            os.rename(os.path.join(source_folder, filename),
-                      os.path.join(source_folder, filename.split('.')[0] + '.rpy.bak'))
-            print(f"Procesando archivo {filename}")
+    print("Proceso de copia completado")
 elif eleg == "3":
     import os
     import shutil
