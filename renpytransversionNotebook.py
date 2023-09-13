@@ -15,8 +15,8 @@
 13) Separar el .rpy en varios archivos
 14) Reemplazar commam ESP
 15) Reemplazar commam CHT
-16) Nada aun
-17) Nada aun
+16) Buscar dirección de google drive
+17) Reemplazar screens ESP 
 18) Nada aun
 19) Nada aun
 20) Nada aun
@@ -41,7 +41,7 @@ print("""
 14) Reemplazar commam ESP
 15) Reemplazar commam CHT
 16) Buscar dirección de google drive
-17) Nada aun
+17) Reemplazar screens ESP 
 18) Nada aun
 19) Nada aun
 20) Nada aun
@@ -273,7 +273,7 @@ elif eleg == "4":
             if filename.endswith('.bak'):
                 filepath = os.path.join(dirpath, filename)
                 os.remove(filepath)
-        print(f"Eliminando archivo {filename}")
+                print(f"Eliminando archivo {filename}")
 
     contador += 1
     porcentaje = int(contador / total_archivos * 100)
@@ -577,7 +577,12 @@ elif eleg == "14":
         r"\[recuento\]": "[count]",
         r"\[problema\]": "[problem]",
         r"\[nombre\]": "[name]",
-        r"\[tipo\]": "[kind]"
+        r"\[tipo\]": "[kind]",
+        r'new "{#weekday_short}Sol"': 'new "{#weekday_short}Dom"',
+        r'new "{#month}August"': 'new "{#month}Agosto"',
+        r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
+        r'new "{#month_short}Mayo"': 'new "{#month_short}May"',
+        r'new "{#month_short}ago"': 'new "{#month_short}Ago"',
     }
 
     lineas = []
@@ -634,17 +639,6 @@ elif eleg == "15":
     with open(archivo, "w", encoding="utf-8") as f:
         f.write(contenido)
         print(contenido)
-    """ lineas = []
-    with open(archivo, "r", encoding="utf-8") as f:
-        for linea in f:
-            for buscar, reemplazar in cambios.items():
-                linea = re.sub(buscar, reemplazar, linea)
-            lineas.append(linea)
-            print(linea)
-
-    with open(archivo, "w", encoding="utf-8") as f:
-        for l in lineas:
-            f.write(l) """
 elif eleg == "16":
     import re
 
@@ -667,7 +661,29 @@ elif eleg == "16":
                         f2.write(url + '\n')
                         print(url)
 elif eleg == "17":
-    print("ok17")
+    import re
+
+    archivo = "screens.rpy"
+
+    cambios = {
+        r'"&lt;"': '"<"',
+        r'"&gt;"': '">"',
+        r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
+        r'new "{#month_short}Mayo"': 'new "{#month_short}May"',
+        r'new "{#month_short}ago"': 'new "{#month_short}Ago"',
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
 elif eleg == "18":
     print("ok18")
 elif eleg == "19":
