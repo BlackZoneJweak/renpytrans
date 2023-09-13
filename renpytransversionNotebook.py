@@ -689,7 +689,45 @@ elif eleg == "17":
         for l in lineas:
             f.write(l)
 elif eleg == "18":
-    print("ok18")
+    import os
+    import re
+
+    def find_matches(pattern, suffix):
+        file_count = 0
+        for filename in os.listdir('.'):
+            if filename.endswith('.rpy'):
+                file_count += 1
+
+        processed_files = 0
+        for filename in os.listdir('.'):
+            if filename.endswith('.rpy'):
+                matches_by_line = {}
+                total_matches = 0
+
+                with open(filename, encoding="utf-8") as f:
+                    for i, line in enumerate(f):
+                        matches = re.findall(pattern, line)
+                        if matches:
+                            matches_by_line[i+1] = matches
+
+                result_filename = filename + suffix
+                with open(result_filename, 'w', encoding="utf-8") as f:
+                    for line, matches in matches_by_line.items():
+                        for match in matches:
+                            f.write(f'Encontrado en la línea {line} {match}\n')
+                            total_matches += 1
+                            print(f'Encontrado en la línea {line} {match} \n')
+
+                processed_files += 1
+                progress = processed_files / file_count * 100
+                print(f'Progreso: {progress:.2f}%')
+
+                print(f'Resultados para {filename} guardados en {result_filename}')
+                print(f'Total de matches []: {total_matches}')
+
+    find_matches(r'\[.*?\]', 'resulcomi.txt')
+    find_matches(r'\{.*?\}', 'resulllave.txt')
+    find_matches(r'\(.*?\)', 'resulllave1.txt')
 elif eleg == "19":
     print("ok19")
 elif eleg == "20":
