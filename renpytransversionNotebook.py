@@ -159,8 +159,15 @@ elif eleg == "2":
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
+                total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
                 destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                
+                # Crear el directorio de destino si no existe
+                destination_dir = os.path.dirname(destination_path)
+                if not os.path.exists(destination_dir):
+                    os.makedirs(destination_dir)
+                
                 print(f'Copying {file}')
                 try:
                     shutil.copy2(source_path, destination_path)
