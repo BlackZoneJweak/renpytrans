@@ -15,7 +15,7 @@
 13) Separar el .rpy en varios archivos
 14) Reemplazar commam ESP
 15) Reemplazar commam CHT
-16) Buscar dirección de google drive
+16) Buscar dirección de google drives
 17) Reemplazar screens ESP 
 18) Nada aun
 19) Nada aun
@@ -603,7 +603,7 @@ elif eleg == "15":
 
     with open(archivo, "r", encoding="utf-8") as f:
         contenido = f.read()
-    
+
     cambios = {
         r"\[文本\]": "[text]",
         r"\[计数\]": "[index]",
@@ -642,24 +642,24 @@ elif eleg == "15":
 elif eleg == "16":
     import re
 
-    with open('verificar.txt',"r", encoding="utf-8") as f:
+    with open('verificar.txt', "r", encoding="utf-8") as f:
         for line in f:
             match = re.search(r'(href=".*?")', line)
             if match:
-                url = match.group(1) 
+                url = match.group(1)
                 print(url)
                 with open('urls.txt', 'a') as f2:
                     f2.write(url + '\n')
-    
+
     with open('urls.txt', "r", encoding="utf-8") as f:
         for line in f:
             match = re.search(r'https?://drive\.google\.com/[^"]*', line)
             if match:
                 url = match.group(0)
-                
+
                 with open('urlssolo.txt', 'a') as f2:
-                        f2.write(url + '\n')
-                        print(url)
+                    f2.write(url + '\n')
+                    print(url)
 elif eleg == "17":
     import re
 
