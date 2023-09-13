@@ -315,40 +315,31 @@ elif eleg == "6":
     print("Procesamiento de archivos .rpy finalizado")
     bar.update(porcentaje)
 elif eleg == "7":
-    import curses
     import time
-    import keyboard
-
-    stdscr = curses.initscr()
-    curses.noecho()
-    stdscr.nodelay(True)
+    from tqdm import tqdm
 
     total = 200
 
-    width = stdscr.getmaxyx()[1] - 20
+    with tqdm(total=total, desc='Progreso', bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}') as progress_bar:
+        for i in range(total):
+            # Simulación de un proceso que lleva tiempo
+            keyboard.press('pagedown')
+            time.sleep(3)
+            keyboard.press('pagedown')
+            time.sleep(3)
 
-    stdscr.addstr(0, 0, 'Progreso: ')
+            # Actualizar la barra de progreso
+            progress_bar.update(1)
 
-    for i in range(total):
+            done = i+1
+            contador = str(done).zfill(len(str(total))) + '/' + str(total)
+            stdscr.addstr(4, 0, contador)
+            stdscr.refresh()
 
-        keyboard.press('pagedown')
-        time.sleep(3)
-        keyboard.press('pagedown')
-        time.sleep(3)
-
-        stdscr.addstr(1, 0, '[' + '='*i + '>' + '-'*(total-i) + ']')
-
-        done = i+1
-
-        contador = str(done).zfill(len(str(total))) + '/' + str(total)
-
-        stdscr.addstr(4, 0, contador)
-
-        stdscr.refresh()
-        time.sleep(0.1)
-
-    stdscr.addstr(1, 0, 'Completado!' + ' ' * (width-12))
-    curses.endwin()
+        # Completado
+        stdscr.addstr(1, 0, 'Completado!' + ' ' * (width-12))
+        curses.endwin()
+        progress_bar.set_description('Completado')
 elif eleg == "8":
     import os
     import shutil
