@@ -320,7 +320,7 @@ elif eleg == "7":
 
     total = 200
 
-    with tqdm(total=total, desc='Progreso', bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}') as progress_bar:
+    with tqdm(total=total, desc='Progreso', bar_format='{l_bar}{bar}| {percentage:.0f}%') as progress_bar:
         for i in range(total):
             # Simulación de un proceso que lleva tiempo
             keyboard.press('pagedown')
