@@ -57,61 +57,79 @@ if eleg == "1":
     import re
     import time
     import progressbar
+    # folder = 'G:/TamaraExposedTheBeginning10esp/tetbesp_v1.0'
+    folder = os.path.dirname(os.path.abspath(__file__))
+    print("Comenzando procesamiento de archivos .rpy...")
+    start_time = time.time()
 
-    def clean_text(text):
-        cleaned = re.sub(r'</font><font style="vertical-align: inherit;">', '', text)
-        cleaned = re.sub(r'<font style="vertical-align: inherit;">', '', cleaned)
-        cleaned = re.sub(r'？', '?', cleaned)
-        cleaned = re.sub(r'。', '.', cleaned)
-        cleaned = re.sub(r'！', '!', cleaned)
-        cleaned = re.sub(r'“', '"', cleaned)
-        cleaned = re.sub(r'”', '"', cleaned)
-        cleaned = re.sub(r'：', ':', cleaned)
-        cleaned = re.sub(r'，', ',', cleaned)
-        cleaned = re.sub(r'（', '(', cleaned)
-        cleaned = re.sub(r'）', ')', cleaned)
-        cleaned = re.sub(r'</font>', '', cleaned)
-        cleaned = re.sub(r'<td>', '', cleaned)
-        cleaned = re.sub(r'</td>', '', cleaned)
-        cleaned = re.sub(r'<tr>', '', cleaned)
-        cleaned = re.sub(r'</tr>', '', cleaned)
-        cleaned = re.sub(r'@@', '', cleaned)
+    total_archivos = len(os.listdir(folder))
+    # bar = progressbar.ProgressBar(maxval=100)
+    bar = progressbar.ProgressBar(maxval=total_archivos)
+    bar.start()
+    contador = 0
 
-        patron = r'\\.+?"'
-        resultados = re.findall(patron, cleaned)
-        for resultado in resultados:
-            cleaned = cleaned.replace(resultado, '@^' + resultado)
+    for filename in os.listdir(folder):
+        if filename.endswith('.bak'):
+            os.remove(os.path.join(folder, filename))
+            print("\n")
+            print(f"Eliminando archivo {filename}")
 
-        return cleaned
+    for filename in os.listdir(folder):
+        if filename.endswith('.rpy'):
+            with open(os.path.join(folder, filename), 'r', encoding="utf-8") as f:
+                text = f.read()
 
-    def main():
-        folder = os.path.dirname(os.path.abspath(__file__))
-        print("Comenzando procesamiento de archivos .rpy...")
-        start_time = time.time()
+                cleaned = re.sub(
+                    r'</font><font style="vertical-align: inherit;">', '', text)
+                cleaned = re.sub(
+                    r'<font style="vertical-align: inherit;">', '', cleaned)
+                cleaned = re.sub(r'？', '?', cleaned)
+                cleaned = re.sub(r'。', '.', cleaned)
+                cleaned = re.sub(r'！', '!', cleaned)
+                cleaned = re.sub(r'“', '"', cleaned)
+                cleaned = re.sub(r'”', '"', cleaned)
+                cleaned = re.sub(r'：', ':', cleaned)
+                cleaned = re.sub(r'，', ',', cleaned)
+                cleaned = re.sub(r'（', '(', cleaned)
+                cleaned = re.sub(r'）', ')', cleaned)
+                cleaned = re.sub(r'</font>', '', cleaned)
+                cleaned = re.sub(r'<td>', '', cleaned)
+                cleaned = re.sub(r'</td>', '', cleaned)
+                cleaned = re.sub(r'<tr>', '', cleaned)
+                cleaned = re.sub(r'</tr>', '', cleaned)
+                # cleaned = re.sub(r'{i}', '', cleaned)
+                # cleaned = re.sub(r'{/i}', '', cleaned)
+                cleaned = re.sub(r'@@', '', cleaned)
 
-        total_archivos = len(os.listdir(folder))
-        bar = progressbar.ProgressBar(maxval=total_archivos, widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
-        bar.start()
-        contador = 0
+                patron = r'\\.+?"'
+                resultados = re.findall(patron, cleaned)
+                for resultado in resultados:
+                    cleaned = cleaned.replace(resultado, '@^' + resultado)
 
-        for filename in os.listdir(folder):
-            file_path = os.path.join(folder, filename)
-            if filename.endswith('.bak'):
-                os.remove(file_path)
-                print("\n")
-                print(f"Eliminando archivo {filename}")
+                time.sleep(0.5)
+                contador += 1
+                bar.update(contador)
 
-        for filename in os.listdir(folder):
-            file_path = os.path.join(folder, filename)
-            if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-                with open(file_path, 'r', encoding="utf-8") as f:
-                    text = f.read()
-                    cleaned = clean_text(text)
+            with open(os.path.join(folder, 'cleaned_'+filename), 'w', encoding="utf-8") as f:
+                f.write(cleaned)
+    print("\n")
+    for filename in os.listdir(folder):
+        if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
+            os.rename(os.path.join(folder, filename),
+                      os.path.join(folder, filename.split('.')[0] + '.rpy.bak'))
+            print(f"Procesando archivo {filename}")
+    print("\n")
+    for filename in os.listdir(folder):
+        if filename.startswith('cleaned_'):
+            cleaned_name = filename
+            original_name = filename.replace('cleaned_', '')
+            os.rename(os.path.join(folder, cleaned_name),
+                      os.path.join(folder, original_name))
+            print(f"cambiando nombre de archivo {filename}")
 
-                with open(file_path, 'w', encoding="utf-8") as f:
-                    f.write(cleaned)
-
-                time.sleep(0)
+    end_time = time.time()
+    print(f"Tiempo de ejecución: {round(end_time - start_time, 2)} segundos")
+    print("Procesamiento de archivos .rpy finalizado")
 elif eleg == "2":
     import os
     import shutil
