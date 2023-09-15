@@ -9,14 +9,14 @@
 7) Page down 200sec \033[32m||\033[0m \033[31m自動page down 200sec\033[0m
 8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
 9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
-10) buscar []
-11) buscar {}
-12) buscar ()
+10) buscar [] {} ()
+11) Reemplazar commam ESP 
+12) Reemplazar commam CHT 
 13) Separar el .rpy en varios archivos
-14) Reemplazar commam ESP
-15) Reemplazar commam CHT
-16) Buscar dirección de google drives
-17) Reemplazar screens ESP 
+14) Buscar dirección de google drives
+15) Reemplazar screens ESP
+16) Nada aun
+17) Nada aun 
 18) Nada aun
 19) Nada aun
 20) Nada aun
@@ -34,14 +34,14 @@ print("""
 7) Page down 200sec \033[32m||\033[0m \033[31m自動page down 200sec\033[0m
 8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
 9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
-10) buscar []
-11) buscar {}
-12) buscar ()
+10) buscar [] {} ()
+11) Reemplazar commam ESP 
+12) Reemplazar commam CHT 
 13) Separar el .rpy en varios archivos
-14) Reemplazar commam ESP
-15) Reemplazar commam CHT
-16) Buscar dirección de google drive
-17) Reemplazar screens ESP 
+14) Buscar dirección de google drives
+15) Reemplazar screens ESP
+16) Nada aun
+17) Nada aun 
 18) Nada aun
 19) Nada aun
 20) Nada aun
@@ -495,104 +495,43 @@ elif eleg == "10":
     import os
     import re
 
-    for filename in os.listdir('.'):
-        if filename.endswith('.rpy'):
-            matches_by_line = {}
+    def find_matches(pattern, suffix):
+        file_count = 0
+        for filename in os.listdir('.'):
+            if filename.endswith('.rpy'):
+                file_count += 1
 
-            total_matches = 0
+        processed_files = 0
+        for filename in os.listdir('.'):
+            if filename.endswith('.rpy'):
+                matches_by_line = {}
+                total_matches = 0
 
-            with open(filename, encoding="utf-8") as f:
-                for i, line in enumerate(f):
-                    matches = re.findall(r'\[.*?\]', line)
-                    if matches:
-                        matches_by_line[i+1] = matches
+                with open(filename, encoding="utf-8") as f:
+                    for i, line in enumerate(f):
+                        matches = re.findall(pattern, line)
+                        if matches:
+                            matches_by_line[i+1] = matches
 
-            result_filename = filename + 'resulcomi.txt'
-            with open(result_filename, 'w', encoding="utf-8") as f:
-                for line, matches in matches_by_line.items():
-                    for match in matches:
-                        f.write(f'Encontrado en la línea {line} {match}\n')
-                        total_matches += 1
-                        print(f'Encontrado en la línea {line} {match} \n')
+                result_filename = filename + suffix
+                with open(result_filename, 'w', encoding="utf-8") as f:
+                    for line, matches in matches_by_line.items():
+                        for match in matches:
+                            f.write(f'Encontrado en la línea {line} {match}\n')
+                            total_matches += 1
+                            print(f'Encontrado en la línea {line} {match} \n')
 
-            print(f'Resultados para {filename} guardados en {result_filename}')
-            print(f'Total de matches []: {total_matches}')
+                processed_files += 1
+                progress = processed_files / file_count * 100
+                print(f'Progreso: {progress:.2f}%')
+
+                print(f'Resultados para {filename} guardados en {result_filename}')
+                print(f'Total de matches []: {total_matches}')
+
+    find_matches(r'\[.*?\]', 'resulcomi.txt')
+    find_matches(r'\{.*?\}', 'resulllave.txt')
+    find_matches(r'\(.*?\)', 'resulllave1.txt')
 elif eleg == "11":
-    import os
-    import re
-
-    for filename in os.listdir('.'):
-        if filename.endswith('.rpy'):
-            matches_by_line = {}
-
-            total_matches = 0
-
-            with open(filename, encoding="utf-8") as f:
-                for i, line in enumerate(f):
-                    matches = re.findall(r'\{.*?\}', line)
-                    if matches:
-                        matches_by_line[i+1] = matches
-
-            result_filename = filename + 'resulllave.txt'
-            with open(result_filename, 'w', encoding="utf-8") as f:
-                for line, matches in matches_by_line.items():
-                    for match in matches:
-                        f.write(f'Encontrado en la línea {line} {match}\n')
-                        total_matches += 1
-                        print(f'Encontrado en la línea {line} {match} \n')
-
-            print(f'Resultados para {filename} guardados en {result_filename}')
-            print(f'Total de matches []: {total_matches}')
-elif eleg == "12":
-    import os
-    import re
-
-    for filename in os.listdir('.'):
-        if filename.endswith('.rpy'):
-            matches_by_line = {}
-
-            total_matches = 0
-
-            with open(filename, encoding="utf-8") as f:
-                for i, line in enumerate(f):
-                    matches = re.findall(r'\(.*?\)', line)
-                    if matches:
-                        matches_by_line[i+1] = matches
-
-            result_filename = filename + 'resulllave1.txt'
-            with open(result_filename, 'w', encoding="utf-8") as f:
-                for line, matches in matches_by_line.items():
-                    for match in matches:
-                        f.write(f'Encontrado en la línea {line} {match}\n')
-                        total_matches += 1
-                        print(f'Encontrado en la línea {line} {match} \n')
-
-            print(f'Resultados para {filename} guardados en {result_filename}')
-            print(f'Total de matches []: {total_matches}')
-elif eleg == "13":
-    # ese tiene que cambiar manual el archivo que va separar
-    import os
-
-    secuencia = 1
-    conteo_lineas = 0
-    archivo_salida = open(
-        f"secuencia{str(secuencia).zfill(4)}.rpy", "w", encoding="utf-8")
-
-    with open("story.rpy") as archivo:
-        for linea in archivo:
-            if conteo_lineas == 5000:
-                archivo_salida.close()
-                secuencia += 1
-                conteo_lineas = 0
-                archivo_salida = open(
-                    f"secuencia{str(secuencia).zfill(4)}.rpy", "w", encoding="utf-8")
-                print(linea)
-
-            archivo_salida.write(linea)
-            conteo_lineas += 1
-
-    archivo_salida.close()
-elif eleg == "14":
     import re
 
     archivo = "common.rpy"
@@ -622,7 +561,7 @@ elif eleg == "14":
     with open(archivo, "w", encoding="utf-8") as f:
         for l in lineas:
             f.write(l)
-elif eleg == "15":
+elif eleg == "12":
     import re
 
     archivo = "common.rpy"
@@ -665,7 +604,30 @@ elif eleg == "15":
     with open(archivo, "w", encoding="utf-8") as f:
         f.write(contenido)
         print(contenido)
-elif eleg == "16":
+elif eleg == "13":
+    # ese tiene que cambiar manual el archivo que va separar
+    import os
+
+    secuencia = 1
+    conteo_lineas = 0
+    archivo_salida = open(
+        f"secuencia{str(secuencia).zfill(4)}.rpy", "w", encoding="utf-8")
+
+    with open("story.rpy") as archivo:
+        for linea in archivo:
+            if conteo_lineas == 5000:
+                archivo_salida.close()
+                secuencia += 1
+                conteo_lineas = 0
+                archivo_salida = open(
+                    f"secuencia{str(secuencia).zfill(4)}.rpy", "w", encoding="utf-8")
+                print(linea)
+
+            archivo_salida.write(linea)
+            conteo_lineas += 1
+
+    archivo_salida.close()
+elif eleg == "14":
     import re
 
     with open('verificar.txt', "r", encoding="utf-8") as f:
@@ -686,7 +648,7 @@ elif eleg == "16":
                 with open('urlssolo.txt', 'a') as f2:
                     f2.write(url + '\n')
                     print(url)
-elif eleg == "17":
+elif eleg == "15":
     import re
 
     archivo = "screens.rpy"
@@ -710,46 +672,12 @@ elif eleg == "17":
     with open(archivo, "w", encoding="utf-8") as f:
         for l in lineas:
             f.write(l)
+elif eleg == "16":
+    print ("16 ok")
+elif eleg == "17":
+    print ("17 ok")
 elif eleg == "18":
-    import os
-    import re
-
-    def find_matches(pattern, suffix):
-        file_count = 0
-        for filename in os.listdir('.'):
-            if filename.endswith('.rpy'):
-                file_count += 1
-
-        processed_files = 0
-        for filename in os.listdir('.'):
-            if filename.endswith('.rpy'):
-                matches_by_line = {}
-                total_matches = 0
-
-                with open(filename, encoding="utf-8") as f:
-                    for i, line in enumerate(f):
-                        matches = re.findall(pattern, line)
-                        if matches:
-                            matches_by_line[i+1] = matches
-
-                result_filename = filename + suffix
-                with open(result_filename, 'w', encoding="utf-8") as f:
-                    for line, matches in matches_by_line.items():
-                        for match in matches:
-                            f.write(f'Encontrado en la línea {line} {match}\n')
-                            total_matches += 1
-                            print(f'Encontrado en la línea {line} {match} \n')
-
-                processed_files += 1
-                progress = processed_files / file_count * 100
-                print(f'Progreso: {progress:.2f}%')
-
-                print(f'Resultados para {filename} guardados en {result_filename}')
-                print(f'Total de matches []: {total_matches}')
-
-    find_matches(r'\[.*?\]', 'resulcomi.txt')
-    find_matches(r'\{.*?\}', 'resulllave.txt')
-    find_matches(r'\(.*?\)', 'resulllave1.txt')
+    print ("ok18")
 elif eleg == "19":
     print("ok19")
 elif eleg == "20":
