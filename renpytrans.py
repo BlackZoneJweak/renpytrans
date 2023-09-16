@@ -15,11 +15,11 @@
 13) Separar el .rpy en varios archivos
 14) Buscar dirección de google drives
 15) Reemplazar screens ESP
-16) Nada aun
+16) Reemplazar screens CHT
 17) Nada aun 
 18) Nada aun
 19) Nada aun
-20) Nada auns
+20) Nada aun1
 """
 # imprimimos el menú en pantalla
 print("\033[36m")
@@ -40,7 +40,7 @@ print("""
 13) Separar el .rpy en varios archivos
 14) Buscar dirección de google drives
 15) Reemplazar screens ESP
-16) Nada aun
+16) Reemplazar screens CHT
 17) Nada aun 
 18) Nada aun
 19) Nada aun
@@ -656,9 +656,9 @@ elif eleg == "15":
     cambios = {
         r'"&lt;"': '"<"',
         r'"&gt;"': '">"',
-        r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
-        r'new "{#month_short}Mayo"': 'new "{#month_short}May"',
-        r'new "{#month_short}ago"': 'new "{#month_short}Ago"',
+        # r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
+        # r'new "{#month_short}Mayo"': 'new "{#month_short}May"',
+        # r'new "{#month_short}ago"': 'new "{#month_short}Ago"',
     }
 
     lineas = []
@@ -673,7 +673,29 @@ elif eleg == "15":
         for l in lineas:
             f.write(l)
 elif eleg == "16":
-    print ("16 ok")
+    import re
+
+    archivo = "screens.rpy"
+
+    cambios = {
+        r'"&lt;"': '"<"',
+        r'"&gt;"': '">"',
+        # r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
+        # r'new "{#month_short}Mayo"': 'new "{#month_short}May"',
+        # r'new "{#month_short}ago"': 'new "{#month_short}Ago"',
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
 elif eleg == "17":
     print ("17 ok")
 elif eleg == "18":
