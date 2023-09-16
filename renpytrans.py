@@ -9,14 +9,14 @@
 7) Page down 200sec \033[32m||\033[0m \033[31m自動page down 200sec\033[0m
 8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
 9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
-10) buscar []
-11) buscar {}
-12) buscar ()
+10) buscar [] {} ()
+11) Reemplazar commam ESP 
+12) Reemplazar commam CHT 
 13) Separar el .rpy en varios archivos
-14) Reemplazar commam ESP
-15) Reemplazar commam CHT
+14) Buscar dirección de google drives
+15) Reemplazar screens ESP
 16) Nada aun
-17) Nada aun
+17) Nada aun 
 18) Nada aun
 19) Nada aun
 20) Nada aun
@@ -34,14 +34,14 @@ print("""
 7) Page down 200sec \033[32m||\033[0m \033[31m自動page down 200sec\033[0m
 8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
 9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
-10) buscar []
-11) buscar {}
-12) buscar ()
+10) buscar [] {} ()
+11) Reemplazar commam ESP 
+12) Reemplazar commam CHT 
 13) Separar el .rpy en varios archivos
-14) Reemplazar commam ESP
-15) Reemplazar commam CHT
+14) Buscar dirección de google drives
+15) Reemplazar screens ESP
 16) Nada aun
-17) Nada aun
+17) Nada aun 
 18) Nada aun
 19) Nada aun
 20) Nada aun
@@ -134,6 +134,7 @@ elif eleg == "2":
     import os
     import shutil
     import time
+    from tqdm import tqdm
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     source_folder = os.path.join(script_dir, 'game', 'tl', 'esp')
@@ -153,48 +154,47 @@ elif eleg == "2":
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
 
-    for dirpath, dirnames, filenames in os.walk(source_folder):
-        for filename in filenames:
-            if filename.endswith('.bak'):
-                filepath = os.path.join(dirpath, filename)
-                os.remove(filepath)
-        print(f"Eliminando archivo {filename}")
-
-    rpy_files = []
+    total_files = 0
     copied_files = 0
 
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
-                rpy_files.append(file)
-
-    total_rpy_files = len(rpy_files)
-    for root, dirs, files in os.walk(source_folder):
-        for file in files:
-            if file.endswith('.rpy'):
+                total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, file)
+                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                
+                # Crear el directorio de destino si no existe
+                destination_dir = os.path.dirname(destination_path)
+                if not os.path.exists(destination_dir):
+                    os.makedirs(destination_dir)
+                
                 print(f'Copying {file}')
                 try:
-                    shutil.copy(source_path, destination_path)
+                    shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                percent_complete = copied_files / total_rpy_files * 100
-                percent_remaining = 100 - percent_complete
-                print(
-                    f'Copied {copied_files}/{total_rpy_files} files ({percent_complete:.2f}% complete, {percent_remaining:.2f}% remaining)')
-                time.sleep(0.1)
+                
+    with tqdm(total=total_files, desc="Copying files", unit="file") as pbar:
+        for root, dirs, files in os.walk(source_folder):
+            for file in files:
+                if file.endswith('.rpy'):
+                    source_path = os.path.join(root, file)
+                    destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                    try:
+                        shutil.copy2(source_path, destination_path)
+                    except Exception as e:
+                        print("Error copiando archivo:", e)
+                    copied_files += 1
+                    pbar.update(1)
 
-    for filename in os.listdir(source_folder):
-        if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            os.rename(os.path.join(source_folder, filename),
-                      os.path.join(source_folder, filename.split('.')[0] + '.rpy.bak'))
-            print(f"Procesando archivo {filename}")
+    print("Proceso de copia completado")
 elif eleg == "3":
     import os
     import shutil
     import time
+    from tqdm import tqdm
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     source_folder = os.path.join(script_dir, 'game', 'tl', 'chino')
@@ -214,44 +214,42 @@ elif eleg == "3":
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
 
-    for dirpath, dirnames, filenames in os.walk(source_folder):
-        for filename in filenames:
-            if filename.endswith('.bak'):
-                filepath = os.path.join(dirpath, filename)
-                os.remove(filepath)
-        print(f"Eliminando archivo {filename}")
-
-    rpy_files = []
+    total_files = 0
     copied_files = 0
 
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
-                rpy_files.append(file)
-
-    total_rpy_files = len(rpy_files)
-    for root, dirs, files in os.walk(source_folder):
-        for file in files:
-            if file.endswith('.rpy'):
+                total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, file)
+                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                
+                # Crear el directorio de destino si no existe
+                destination_dir = os.path.dirname(destination_path)
+                if not os.path.exists(destination_dir):
+                    os.makedirs(destination_dir)
+                
                 print(f'Copying {file}')
                 try:
-                    shutil.copy(source_path, destination_path)
+                    shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                percent_complete = copied_files / total_rpy_files * 100
-                percent_remaining = 100 - percent_complete
-                print(
-                    f'Copied {copied_files}/{total_rpy_files} files ({percent_complete:.2f}% complete, {percent_remaining:.2f}% remaining)')
-                time.sleep(0.1)
+                
+    with tqdm(total=total_files, desc="Copying files", unit="file") as pbar:
+        for root, dirs, files in os.walk(source_folder):
+            for file in files:
+                if file.endswith('.rpy'):
+                    source_path = os.path.join(root, file)
+                    destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                    try:
+                        shutil.copy2(source_path, destination_path)
+                    except Exception as e:
+                        print("Error copiando archivo:", e)
+                    copied_files += 1
+                    pbar.update(1)
 
-    for filename in os.listdir(source_folder):
-        if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            os.rename(os.path.join(source_folder, filename),
-                      os.path.join(source_folder, filename.split('.')[0] + '.rpy.bak'))
-            print(f"Procesando archivo {filename}")
+    print("Proceso de copia completado")
 elif eleg == "4":
     import os
     import re
@@ -273,7 +271,7 @@ elif eleg == "4":
             if filename.endswith('.bak'):
                 filepath = os.path.join(dirpath, filename)
                 os.remove(filepath)
-        print(f"Eliminando archivo {filename}")
+                print(f"Eliminando archivo {filename}")
 
     contador += 1
     porcentaje = int(contador / total_archivos * 100)
@@ -343,7 +341,7 @@ elif eleg == "7":
     curses.noecho()
     stdscr.nodelay(True)
 
-    total = 200
+    total = 100
 
     width = stdscr.getmaxyx()[1] - 20
 
@@ -351,28 +349,33 @@ elif eleg == "7":
 
     for i in range(total):
 
+        if keyboard.is_pressed('q') or keyboard.is_pressed('esc'):
+            break
+
         keyboard.press('pagedown')
-        time.sleep(1.5)
+        time.sleep(3)
         keyboard.press('pagedown')
-        time.sleep(1.5)
+        time.sleep(3)
 
-        stdscr.addstr(1, 0, '[' + '='*i + '>' + '-'*(total-i) + ']')
+        percent_done = (i + 1) * 100 / total
 
-        done = i+1
+        stdscr.addstr(1, 0, '[' + '=' * int(percent_done) + '>' + '-' * (100 - int(percent_done)) + ']')
 
-        contador = str(done).zfill(len(str(total))) + '/' + str(total)
+        contador = f'{int(percent_done)}%'
 
         stdscr.addstr(4, 0, contador)
 
         stdscr.refresh()
         time.sleep(0.1)
 
-    stdscr.addstr(1, 0, 'Completado!' + ' ' * (width-12))
+    stdscr.addstr(1, 0, 'Completado!' + ' ' * (width - 12))
     curses.endwin()
+
 elif eleg == "8":
     import os
     import shutil
     import time
+    from tqdm import tqdm
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     source_folder = os.path.join(script_dir, 'game', 'tl', 'esp')
@@ -392,35 +395,47 @@ elif eleg == "8":
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
 
-    rpy_files = []
+    total_files = 0
     copied_files = 0
 
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
-                rpy_files.append(file)
-
-    total_rpy_files = len(rpy_files)
-    for root, dirs, files in os.walk(source_folder):
-        for file in files:
-            if file.endswith('.rpy'):
+                total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, file)
+                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                
+                # Crear el directorio de destino si no existe
+                destination_dir = os.path.dirname(destination_path)
+                if not os.path.exists(destination_dir):
+                    os.makedirs(destination_dir)
+                
                 print(f'Copying {file}')
                 try:
-                    shutil.copy(source_path, destination_path)
+                    shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                percent_complete = copied_files / total_rpy_files * 100
-                percent_remaining = 100 - percent_complete
-                print(
-                    f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
-                time.sleep(0.1)
+                
+    with tqdm(total=total_files, desc="Copying files", unit="file") as pbar:
+        for root, dirs, files in os.walk(source_folder):
+            for file in files:
+                if file.endswith('.rpy'):
+                    source_path = os.path.join(root, file)
+                    destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                    try:
+                        shutil.copy2(source_path, destination_path)
+                    except Exception as e:
+                        print("Error copiando archivo:", e)
+                    copied_files += 1
+                    pbar.update(1)
+
+    print("Proceso de copia completado")
 elif eleg == "9":
     import os
     import shutil
     import time
+    from tqdm import tqdm
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     source_folder = os.path.join(script_dir, 'game', 'tl', 'chino')
@@ -440,109 +455,155 @@ elif eleg == "9":
     if not os.path.exists(destination_folder):
         os.makedirs(destination_folder)
 
-    rpy_files = []
+    total_files = 0
     copied_files = 0
 
     for root, dirs, files in os.walk(source_folder):
         for file in files:
             if file.endswith('.rpy'):
-                rpy_files.append(file)
-
-    total_rpy_files = len(rpy_files)
-    for root, dirs, files in os.walk(source_folder):
-        for file in files:
-            if file.endswith('.rpy'):
+                total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, file)
+                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                
+                # Crear el directorio de destino si no existe
+                destination_dir = os.path.dirname(destination_path)
+                if not os.path.exists(destination_dir):
+                    os.makedirs(destination_dir)
+                
                 print(f'Copying {file}')
                 try:
-                    shutil.copy(source_path, destination_path)
+                    shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                percent_complete = copied_files / total_rpy_files * 100
-                percent_remaining = 100 - percent_complete
-                print(
-                    f'Copiando {copied_files}/{total_rpy_files} archivos ({percent_complete:.2f}% completado, {percent_remaining:.2f}% faltan)')
-                time.sleep(0.1)
+                
+    with tqdm(total=total_files, desc="Copying files", unit="file") as pbar:
+        for root, dirs, files in os.walk(source_folder):
+            for file in files:
+                if file.endswith('.rpy'):
+                    source_path = os.path.join(root, file)
+                    destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                    try:
+                        shutil.copy2(source_path, destination_path)
+                    except Exception as e:
+                        print("Error copiando archivo:", e)
+                    copied_files += 1
+                    pbar.update(1)
+
+    print("Proceso de copia completado")
 elif eleg == "10":
     import os
     import re
 
-    for filename in os.listdir('.'):
-        if filename.endswith('.rpy'):
-            matches_by_line = {}
+    def find_matches(pattern, suffix):
+        file_count = 0
+        for filename in os.listdir('.'):
+            if filename.endswith('.rpy'):
+                file_count += 1
 
-            total_matches = 0
+        processed_files = 0
+        for filename in os.listdir('.'):
+            if filename.endswith('.rpy'):
+                matches_by_line = {}
+                total_matches = 0
 
-            with open(filename, encoding="utf-8") as f:
-                for i, line in enumerate(f):
-                    matches = re.findall(r'\[.*?\]', line)
-                    if matches:
-                        matches_by_line[i+1] = matches
+                with open(filename, encoding="utf-8") as f:
+                    for i, line in enumerate(f):
+                        matches = re.findall(pattern, line)
+                        if matches:
+                            matches_by_line[i+1] = matches
 
-            result_filename = filename + 'resulcomi.txt'
-            with open(result_filename, 'w', encoding="utf-8") as f:
-                for line, matches in matches_by_line.items():
-                    for match in matches:
-                        f.write(f'Encontrado en la línea {line} {match}\n')
-                        total_matches += 1
-                        print(f'Encontrado en la línea {line} {match} \n')
+                result_filename = filename + suffix
+                with open(result_filename, 'w', encoding="utf-8") as f:
+                    for line, matches in matches_by_line.items():
+                        for match in matches:
+                            f.write(f'Encontrado en la línea {line} {match}\n')
+                            total_matches += 1
+                            print(f'Encontrado en la línea {line} {match} \n')
 
-            print(f'Resultados para {filename} guardados en {result_filename}')
-            print(f'Total de matches []: {total_matches}')
+                processed_files += 1
+                progress = processed_files / file_count * 100
+                print(f'Progreso: {progress:.2f}%')
+
+                print(f'Resultados para {filename} guardados en {result_filename}')
+                print(f'Total de matches []: {total_matches}')
+
+    find_matches(r'\[.*?\]', 'resulcomi.txt')
+    find_matches(r'\{.*?\}', 'resulllave.txt')
+    find_matches(r'\(.*?\)', 'resulllave1.txt')
 elif eleg == "11":
-    import os
     import re
 
-    for filename in os.listdir('.'):
-        if filename.endswith('.rpy'):
-            matches_by_line = {}
+    archivo = "common.rpy"
 
-            total_matches = 0
+    cambios = {
+        r"\[texto\]": "[text]",
+        r"\[índice\]": "[index]",
+        r"\[recuento\]": "[count]",
+        r"\[problema\]": "[problem]",
+        r"\[nombre\]": "[name]",
+        r"\[tipo\]": "[kind]",
+        r'new "{#weekday_short}Sol"': 'new "{#weekday_short}Dom"',
+        r'new "{#month}August"': 'new "{#month}Agosto"',
+        r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
+        r'new "{#month_short}Mayo"': 'new "{#month_short}May"',
+        r'new "{#month_short}ago"': 'new "{#month_short}Ago"',
+    }
 
-            with open(filename, encoding="utf-8") as f:
-                for i, line in enumerate(f):
-                    matches = re.findall(r'\{.*?\}', line)
-                    if matches:
-                        matches_by_line[i+1] = matches
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
 
-            result_filename = filename + 'resulllave.txt'
-            with open(result_filename, 'w', encoding="utf-8") as f:
-                for line, matches in matches_by_line.items():
-                    for match in matches:
-                        f.write(f'Encontrado en la línea {line} {match}\n')
-                        total_matches += 1
-                        print(f'Encontrado en la línea {line} {match} \n')
-
-            print(f'Resultados para {filename} guardados en {result_filename}')
-            print(f'Total de matches []: {total_matches}')
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
 elif eleg == "12":
-    import os
     import re
 
-    for filename in os.listdir('.'):
-        if filename.endswith('.rpy'):
-            matches_by_line = {}
+    archivo = "common.rpy"
 
-            total_matches = 0
+    with open(archivo, "r", encoding="utf-8") as f:
+        contenido = f.read()
 
-            with open(filename, encoding="utf-8") as f:
-                for i, line in enumerate(f):
-                    matches = re.findall(r'\(.*?\)', line)
-                    if matches:
-                        matches_by_line[i+1] = matches
+    cambios = {
+        r"\[文本\]": "[text]",
+        r"\[计数\]": "[index]",
+        r"\[索引\]": "[count]",
+        r"\[问题\]": "[problem]",
+        r"\[名称\]": "[name]",
+        r"\[种类\]": "[kind]",
+        r"\[总计\]": "[total]",
+        r'"\[控件!s\]"': "'[control!s]'",
+        r'new "{#weekday_short}Tue"': 'new "{#weekday_short}週二"',
+        r'new "{#weekday_short}Thu"': 'new "{#weekday_short}週四"',
+        r'new "{#weekday_short}卫星"': 'new "{#weekday_short}週六"',
+        r'new "{#weekday_short}Sun"': 'new "{#weekday_short}週日"',
+        r'new "{#month_short}Jan"': 'new "{#month_short}一月"',
+        r'new "{#month_short}Mar"': 'new "{#month_short}三月"',
+        r'new "{#month_short}Jun"': 'new "{#month_short}六月"',
+        r'new "{#month_short}Jul"': 'new "{#month_short}七月"',
+        r'new "{#month_short}Sep"': 'new "{#month_short}九月"',
+        r'new "{#month_short}Oct"': 'new "{#month_short}十月"',
+        r'new "{#month_short}Nov"': 'new "{#month_short}十一月"',
+        r'new "{#month_short}Dec"': 'new "{#month_short}十二月"',
+        r'"shift\+C"': "'shift+C'",
+        r'"alt\+shift\+V"': "'alt+shift+V'",
+        r'"v"': "'v'",
+        r'"是"': "'是'"
+    }
 
-            result_filename = filename + 'resulllave1.txt'
-            with open(result_filename, 'w', encoding="utf-8") as f:
-                for line, matches in matches_by_line.items():
-                    for match in matches:
-                        f.write(f'Encontrado en la línea {line} {match}\n')
-                        total_matches += 1
-                        print(f'Encontrado en la línea {line} {match} \n')
+    # Hacer reemplazos en todo el contenido
+    for buscar, reemplazar in cambios.items():
+        contenido = re.sub(buscar, reemplazar, contenido)
 
-            print(f'Resultados para {filename} guardados en {result_filename}')
-            print(f'Total de matches []: {total_matches}')
+    # Volver a escribir el contenido modificado
+    with open(archivo, "w", encoding="utf-8") as f:
+        f.write(contenido)
+        print(contenido)
 elif eleg == "13":
     # ese tiene que cambiar manual el archivo que va separar
     import os
@@ -569,15 +630,35 @@ elif eleg == "13":
 elif eleg == "14":
     import re
 
-    archivo = "common.rpy"
+    with open('verificar.txt', "r", encoding="utf-8") as f:
+        for line in f:
+            match = re.search(r'(href=".*?")', line)
+            if match:
+                url = match.group(1)
+                print(url)
+                with open('urls.txt', 'a') as f2:
+                    f2.write(url + '\n')
+
+    with open('urls.txt', "r", encoding="utf-8") as f:
+        for line in f:
+            match = re.search(r'https?://drive\.google\.com/[^"]*', line)
+            if match:
+                url = match.group(0)
+
+                with open('urlssolo.txt', 'a') as f2:
+                    f2.write(url + '\n')
+                    print(url)
+elif eleg == "15":
+    import re
+
+    archivo = "screens.rpy"
 
     cambios = {
-        r"\[texto\]": "[text]",
-        r"\[índice\]": "[index]",
-        r"\[recuento\]": "[count]",
-        r"\[problema\]": "[problem]",
-        r"\[nombre\]": "[name]",
-        r"\[tipo\]": "[kind]"
+        r'"&lt;"': '"<"',
+        r'"&gt;"': '">"',
+        r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
+        r'new "{#month_short}Mayo"': 'new "{#month_short}May"',
+        r'new "{#month_short}ago"': 'new "{#month_short}Ago"',
     }
 
     lineas = []
@@ -591,8 +672,16 @@ elif eleg == "14":
     with open(archivo, "w", encoding="utf-8") as f:
         for l in lineas:
             f.write(l)
-elif eleg == "15":
-    print("ok15")
+elif eleg == "16":
+    print ("16 ok")
+elif eleg == "17":
+    print ("17 ok")
+elif eleg == "18":
+    print ("ok18")
+elif eleg == "19":
+    print("ok19")
+elif eleg == "20":
+    print("ok20")
 else:
     print("Opción no es valido")
     exec(open("renpytrans.py", encoding="utf-8").read())
