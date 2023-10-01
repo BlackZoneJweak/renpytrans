@@ -19,7 +19,7 @@
 17) Nada aun 
 18) Nada aun
 19) Nada aun
-20) Nada aun12
+20) Nada aun1
 """
 # imprimimos el menú en pantalla
 print("\033[36m")
