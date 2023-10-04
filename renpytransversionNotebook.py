@@ -693,7 +693,6 @@ elif eleg == "16":
         for l in lineas:
             f.write(l)
 elif eleg == "17":
-<<<<<<< HEAD
     import re
 
     archivo = "common.rpy"
@@ -735,7 +734,7 @@ elif eleg == "17":
         r'new "Feb"': 'new "{#month_short}Feb"',
         r'new "Mar"': 'new "{#month_short}Mar"',
         r'new "Apr"': 'new "{#month_short}Abr"',
-        r'new "May"': 'new "{#month_short}May"',
+        # r'new "May"': 'new "{#month_short}May"',
         r'new "Jun"': 'new "{#month_short}Jun"',
         r'new "Jul"': 'new "{#month_short}Jul"',
         r'new "Aug"': 'new "{#month_short}Ago"',
@@ -764,9 +763,6 @@ elif eleg == "17":
     with open(archivo, "w", encoding="utf-8") as f:
         for l in lineas:
             f.write(l)
-=======
-    print("17 ok")
->>>>>>> 4d63b0381021f1f1e55bda9cfc53b9158d9a62ae
 elif eleg == "18":
     print("ok18")
 elif eleg == "19":
