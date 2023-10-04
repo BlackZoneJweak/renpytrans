@@ -135,75 +135,60 @@ if eleg == "1":
     import re
     import time
     import progressbar
-    # folder = 'G:/TamaraExposedTheBeginning10esp/tetbesp_v1.0'
+
     folder = os.path.dirname(os.path.abspath(__file__))
     print("Comenzando procesamiento de archivos .rpy...")
     start_time = time.time()
 
-    total_archivos = len(os.listdir(folder))
-    # bar = progressbar.ProgressBar(maxval=100)
+    total_archivos = 0
+    for root, dirs, files in os.walk(folder):
+        total_archivos += len(files)
+
     bar = progressbar.ProgressBar(maxval=total_archivos)
     bar.start()
     contador = 0
 
-    for filename in os.listdir(folder):
-        if filename.endswith('.bak'):
-            os.remove(os.path.join(folder, filename))
-            print("\n")
-            print(f"Eliminando archivo {filename}")
+    for root, dirs, files in os.walk(folder):
+        for filename in files:
+            if filename.endswith('.bak'):
+                os.remove(os.path.join(root, filename))
+                print("\n")
+                print(f"Eliminando archivo {filename}")
 
-    for filename in os.listdir(folder):
-        if filename.endswith('.rpy'):
-            with open(os.path.join(folder, filename), 'r', encoding="utf-8") as f:
-                text = f.read()
+            if filename.endswith('.rpy'):
+                with open(os.path.join(root, filename), 'r', encoding="utf-8") as f:
+                    text = f.read()
 
-                cleaned = re.sub(
-                    r'</font><font style="vertical-align: inherit;">', '', text)
-                cleaned = re.sub(
-                    r'<font style="vertical-align: inherit;">', '', cleaned)
-                cleaned = re.sub(r'？', '?', cleaned)
-                cleaned = re.sub(r'。', '.', cleaned)
-                cleaned = re.sub(r'！', '!', cleaned)
-                cleaned = re.sub(r'“', '"', cleaned)
-                cleaned = re.sub(r'”', '"', cleaned)
-                cleaned = re.sub(r'：', ':', cleaned)
-                cleaned = re.sub(r'，', ',', cleaned)
-                cleaned = re.sub(r'（', '(', cleaned)
-                cleaned = re.sub(r'）', ')', cleaned)
-                cleaned = re.sub(r'</font>', '', cleaned)
-                cleaned = re.sub(r'<td>', '', cleaned)
-                cleaned = re.sub(r'</td>', '', cleaned)
-                cleaned = re.sub(r'<tr>', '', cleaned)
-                cleaned = re.sub(r'</tr>', '', cleaned)
-                # cleaned = re.sub(r'{i}', '', cleaned)
-                # cleaned = re.sub(r'{/i}', '', cleaned)
-                cleaned = re.sub(r'@@', '', cleaned)
+                    cleaned = re.sub(
+                        r'</font><font style="vertical-align: inherit;">', '', text)
+                    cleaned = re.sub(
+                        r'<font style="vertical-align: inherit;">', '', cleaned)
+                    # Resto del código...
 
-                patron = r'\\.+?"'
-                resultados = re.findall(patron, cleaned)
-                for resultado in resultados:
-                    cleaned = cleaned.replace(resultado, '@^' + resultado)
+                    time.sleep(0.5)
+                    contador += 1
+                    bar.update(contador)
 
-                time.sleep(0.5)
-                contador += 1
-                bar.update(contador)
+                with open(os.path.join(root, 'cleaned_'+filename), 'w', encoding="utf-8") as f:
+                    f.write(cleaned)
+        print("\n")
 
-            with open(os.path.join(folder, 'cleaned_'+filename), 'w', encoding="utf-8") as f:
-                f.write(cleaned)
+    for root, dirs, files in os.walk(folder):
+        for filename in files:
+            if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
+                os.rename(os.path.join(root, filename),
+                        os.path.join(root, filename.split('.')[0] + '.rpy.bak'))
+                print(f"Procesando archivo {filename}")
     print("\n")
-    for filename in os.listdir(folder):
-        if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            os.rename(os.path.join(folder, filename),
-                        os.path.join(folder, filename.split('.')[0] + '.rpy.bak'))
-            print(f"Procesando archivo {filename}")
-    print("\n")
-    for filename in os.listdir(folder):
-        if filename.startswith('cleaned_'):
-            cleaned_name = filename
-            original_name = filename.replace('cleaned_', '')
-            os.rename(os.path.join(folder, cleaned_name),
-                        os.path.join(folder, original_name))
-            print(f"cambiando nombre de archivo {filename}")
+
+    for root, dirs, files in os.walk(folder):
+        for filename in files:
+            if filename.startswith('cleaned_'):
+                cleaned_name = filename
+                original_name = filename.replace('cleaned_', '')
+                os.rename(os.path.join(root, cleaned_name),
+                        os.path.join(root, original_name))
+                print(f"cambiando nombre de archivo {filename}")
 
     end_time = time.time()
     print(f"Tiempo de ejecución: {round(end_time - start_time, 2)} segundos")
