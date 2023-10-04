@@ -41,7 +41,7 @@ print("""
 14) Buscar dirección de google drives
 15) Reemplazar screens ESP
 16) Reemplazar screens CHT
-17) Nada aun 
+17) Reemplazar commam ESP AI Trans
 18) Nada aun
 19) Nada aun
 20) Nada aun
@@ -52,7 +52,7 @@ print("\033[0m")
 eleg = input("Seleccionar el ejercicio que desea ejecutar: ")
 
 # Según lo que ingresó, código diferente
-if eleg == "1":
+""" if eleg == "1":
     import os
     import re
     import time
@@ -125,6 +125,84 @@ if eleg == "1":
             original_name = filename.replace('cleaned_', '')
             os.rename(os.path.join(folder, cleaned_name),
                       os.path.join(folder, original_name))
+            print(f"cambiando nombre de archivo {filename}")
+
+    end_time = time.time()
+    print(f"Tiempo de ejecución: {round(end_time - start_time, 2)} segundos")
+    print("Procesamiento de archivos .rpy finalizado") """
+if eleg == "1":
+    import os
+    import re
+    import time
+    import progressbar
+    # folder = 'G:/TamaraExposedTheBeginning10esp/tetbesp_v1.0'
+    folder = os.path.dirname(os.path.abspath(__file__))
+    print("Comenzando procesamiento de archivos .rpy...")
+    start_time = time.time()
+
+    total_archivos = len(os.listdir(folder))
+    # bar = progressbar.ProgressBar(maxval=100)
+    bar = progressbar.ProgressBar(maxval=total_archivos)
+    bar.start()
+    contador = 0
+
+    for filename in os.listdir(folder):
+        if filename.endswith('.bak'):
+            os.remove(os.path.join(folder, filename))
+            print("\n")
+            print(f"Eliminando archivo {filename}")
+
+    for filename in os.listdir(folder):
+        if filename.endswith('.rpy'):
+            with open(os.path.join(folder, filename), 'r', encoding="utf-8") as f:
+                text = f.read()
+
+                cleaned = re.sub(
+                    r'</font><font style="vertical-align: inherit;">', '', text)
+                cleaned = re.sub(
+                    r'<font style="vertical-align: inherit;">', '', cleaned)
+                cleaned = re.sub(r'？', '?', cleaned)
+                cleaned = re.sub(r'。', '.', cleaned)
+                cleaned = re.sub(r'！', '!', cleaned)
+                cleaned = re.sub(r'“', '"', cleaned)
+                cleaned = re.sub(r'”', '"', cleaned)
+                cleaned = re.sub(r'：', ':', cleaned)
+                cleaned = re.sub(r'，', ',', cleaned)
+                cleaned = re.sub(r'（', '(', cleaned)
+                cleaned = re.sub(r'）', ')', cleaned)
+                cleaned = re.sub(r'</font>', '', cleaned)
+                cleaned = re.sub(r'<td>', '', cleaned)
+                cleaned = re.sub(r'</td>', '', cleaned)
+                cleaned = re.sub(r'<tr>', '', cleaned)
+                cleaned = re.sub(r'</tr>', '', cleaned)
+                # cleaned = re.sub(r'{i}', '', cleaned)
+                # cleaned = re.sub(r'{/i}', '', cleaned)
+                cleaned = re.sub(r'@@', '', cleaned)
+
+                patron = r'\\.+?"'
+                resultados = re.findall(patron, cleaned)
+                for resultado in resultados:
+                    cleaned = cleaned.replace(resultado, '@^' + resultado)
+
+                time.sleep(0.5)
+                contador += 1
+                bar.update(contador)
+
+            with open(os.path.join(folder, 'cleaned_'+filename), 'w', encoding="utf-8") as f:
+                f.write(cleaned)
+    print("\n")
+    for filename in os.listdir(folder):
+        if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
+            os.rename(os.path.join(folder, filename),
+                        os.path.join(folder, filename.split('.')[0] + '.rpy.bak'))
+            print(f"Procesando archivo {filename}")
+    print("\n")
+    for filename in os.listdir(folder):
+        if filename.startswith('cleaned_'):
+            cleaned_name = filename
+            original_name = filename.replace('cleaned_', '')
+            os.rename(os.path.join(folder, cleaned_name),
+                        os.path.join(folder, original_name))
             print(f"cambiando nombre de archivo {filename}")
 
     end_time = time.time()
@@ -537,12 +615,12 @@ elif eleg == "11":
     archivo = "common.rpy"
 
     cambios = {
-        r"\[texto\]": "[text]",
-        r"\[índice\]": "[index]",
-        r"\[recuento\]": "[count]",
-        r"\[problema\]": "[problem]",
-        r"\[nombre\]": "[name]",
-        r"\[tipo\]": "[kind]",
+        # r"\[texto\]": "[text]",
+        # r"\[índice\]": "[index]",
+        # r"\[recuento\]": "[count]",
+        # r"\[problema\]": "[problem]",
+        # r"\[nombre\]": "[name]",
+        # r"\[tipo\]": "[kind]",
         r'new "{#weekday_short}Sol"': 'new "{#weekday_short}Dom"',
         r'new "{#month}August"': 'new "{#month}Agosto"',
         r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
@@ -697,7 +775,76 @@ elif eleg == "16":
         for l in lineas:
             f.write(l)
 elif eleg == "17":
-    print ("17 ok")
+    import re
+
+    archivo = "common.rpy"
+
+    cambios = {
+        # r"\[texto\]": "[text]",
+        # r"\[índice\]": "[index]",
+        # r"\[recuento\]": "[count]",
+        # r"\[problema\]": "[problem]",
+        # r"\[nombre\]": "[name]",
+        # r"\[tipo\]": "[kind]",
+        r'new "lunes"': 'new "{#weekday}Lunes"',
+        r'new "martes"': 'new "{#weekday}Martes"',
+        r'new "Miércoles"': 'new "{#weekday}Miércoles"',
+        r'new "Jueves"': 'new "{#weekday}Jueves"',
+        r'new "Viernes"': 'new "{#weekday}Viernes"',
+        r'new "Sábado"': 'new "{#weekday}Sábado"',
+        r'new "Domingo"': 'new "{#weekday}Domingo"',
+        r'new "Mon"': 'new "{#weekday_short}Lun"',
+        r'new "Tue"': 'new "{#weekday_short}Mar"',
+        r'new "Encuentro"': 'new "{#weekday_short}Mie"',
+        r'new "Tu"': 'new "{#weekday_short}Jue"',
+        r'new "libre"': 'new "{#weekday_short}Vie"',
+        r'new "El sat"': 'new "{#weekday_short}Sab"',
+        r'new "El sol"': 'new "{#weekday_short}Dom"',
+        r'new "enero"': 'new "{#month}Enero"',
+        r'new "Febrero"': 'new "{#month}Febrero"',
+        r'new "Marzo"': 'new "{#month}Marzo"',
+        r'new "abril"': 'new "{#month}Abril"',
+        r'new "May"': 'new "{#month}Mayo"',
+        r'new "Junio"': 'new "{#month}Junio"',
+        r'new "Julio"': 'new "{#month}Julio"',
+        r'new "agosto"': 'new "{#month}Agosto"',
+        r'new "septiembre"': 'new "{#month}Septiembre"',
+        r'new "octubre"': 'new "{#month}Octubre"',
+        r'new "noviembre"': 'new "{#month}Noviembre"',
+        r'new "Diciembre"': 'new "{#month}Diciembre"',
+        r'new "Jan"': 'new "{#month_short}Ene"',
+        r'new "Feb"': 'new "{#month_short}Feb"',
+        r'new "Mar"': 'new "{#month_short}Mar"',
+        r'new "Apr"': 'new "{#month_short}Abr"',
+        r'new "May"': 'new "{#month_short}May"',
+        r'new "Jun"': 'new "{#month_short}Jun"',
+        r'new "Jul"': 'new "{#month_short}Jul"',
+        r'new "Aug"': 'new "{#month_short}Ago"',
+        r'new "Sep"': 'new "{#month_short}Sep"',
+        r'new "Oct"': 'new "{#month_short}Oct"',
+        r'new "Nuevo"': 'new "{#month_short}Nov"',
+        r'new "Dec"': 'new "{#month_short}Dic"',
+        r'new "Directorias abiertas."': 'new "Directorias [text] abiertas."',
+        r'new "\( La declaración \)"': 'new "(La declaración)"',
+        r'new "\( Los atributos \)"': 'new "(Los atributos)"',
+        r'new "La transformación\)"': 'new "(La transformación)"',
+        r'new "La transición\)"': 'new "(La transición)"',
+        r'new "\( El escondido \)"': 'new "(El escondido)"',
+        r'new "El canal\)"': 'new "(El canal)"',
+        r'new "Sin embargo, el tipo desconocido."': 'new "Sin embargo {}, el tipo desconocido {}."',
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
 elif eleg == "18":
     print ("ok18")
 elif eleg == "19":
