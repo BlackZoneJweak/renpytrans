@@ -52,84 +52,7 @@ print("\033[0m")
 eleg = input("Seleccionar el ejercicio que desea ejecutar: ")
 
 # Según lo que ingresó, código diferente
-""" if eleg == "1":
-    import os
-    import re
-    import time
-    import progressbar
-    # folder = 'G:/TamaraExposedTheBeginning10esp/tetbesp_v1.0'
-    folder = os.path.dirname(os.path.abspath(__file__))
-    print("Comenzando procesamiento de archivos .rpy...")
-    start_time = time.time()
 
-    total_archivos = len(os.listdir(folder))
-    # bar = progressbar.ProgressBar(maxval=100)
-    bar = progressbar.ProgressBar(maxval=total_archivos)
-    bar.start()
-    contador = 0
-
-    for filename in os.listdir(folder):
-        if filename.endswith('.bak'):
-            os.remove(os.path.join(folder, filename))
-            print("\n")
-            print(f"Eliminando archivo {filename}")
-
-    for filename in os.listdir(folder):
-        if filename.endswith('.rpy'):
-            with open(os.path.join(folder, filename), 'r', encoding="utf-8") as f:
-                text = f.read()
-
-                cleaned = re.sub(
-                    r'</font><font style="vertical-align: inherit;">', '', text)
-                cleaned = re.sub(
-                    r'<font style="vertical-align: inherit;">', '', cleaned)
-                cleaned = re.sub(r'？', '?', cleaned)
-                cleaned = re.sub(r'。', '.', cleaned)
-                cleaned = re.sub(r'！', '!', cleaned)
-                cleaned = re.sub(r'“', '"', cleaned)
-                cleaned = re.sub(r'”', '"', cleaned)
-                cleaned = re.sub(r'：', ':', cleaned)
-                cleaned = re.sub(r'，', ',', cleaned)
-                cleaned = re.sub(r'（', '(', cleaned)
-                cleaned = re.sub(r'）', ')', cleaned)
-                cleaned = re.sub(r'</font>', '', cleaned)
-                cleaned = re.sub(r'<td>', '', cleaned)
-                cleaned = re.sub(r'</td>', '', cleaned)
-                cleaned = re.sub(r'<tr>', '', cleaned)
-                cleaned = re.sub(r'</tr>', '', cleaned)
-                # cleaned = re.sub(r'{i}', '', cleaned)
-                # cleaned = re.sub(r'{/i}', '', cleaned)
-                cleaned = re.sub(r'@@', '', cleaned)
-
-                patron = r'\\.+?"'
-                resultados = re.findall(patron, cleaned)
-                for resultado in resultados:
-                    cleaned = cleaned.replace(resultado, '@^' + resultado)
-
-                time.sleep(0.5)
-                contador += 1
-                bar.update(contador)
-
-            with open(os.path.join(folder, 'cleaned_'+filename), 'w', encoding="utf-8") as f:
-                f.write(cleaned)
-    print("\n")
-    for filename in os.listdir(folder):
-        if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
-            os.rename(os.path.join(folder, filename),
-                      os.path.join(folder, filename.split('.')[0] + '.rpy.bak'))
-            print(f"Procesando archivo {filename}")
-    print("\n")
-    for filename in os.listdir(folder):
-        if filename.startswith('cleaned_'):
-            cleaned_name = filename
-            original_name = filename.replace('cleaned_', '')
-            os.rename(os.path.join(folder, cleaned_name),
-                      os.path.join(folder, original_name))
-            print(f"cambiando nombre de archivo {filename}")
-
-    end_time = time.time()
-    print(f"Tiempo de ejecución: {round(end_time - start_time, 2)} segundos")
-    print("Procesamiento de archivos .rpy finalizado") """
 if eleg == "1":
     import os
     import re
@@ -225,26 +148,28 @@ elif eleg == "2":
             if file.endswith('.rpy'):
                 total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
-                
+                destination_path = os.path.join(
+                    destination_folder, os.path.relpath(root, source_folder), file)
+
                 # Crear el directorio de destino si no existe
                 destination_dir = os.path.dirname(destination_path)
                 if not os.path.exists(destination_dir):
                     os.makedirs(destination_dir)
-                
+
                 print(f'Copying {file}')
                 try:
                     shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                
+
     with tqdm(total=total_files, desc="Copying files", unit="file") as pbar:
         for root, dirs, files in os.walk(source_folder):
             for file in files:
                 if file.endswith('.rpy'):
                     source_path = os.path.join(root, file)
-                    destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                    destination_path = os.path.join(
+                        destination_folder, os.path.relpath(root, source_folder), file)
                     try:
                         shutil.copy2(source_path, destination_path)
                     except Exception as e:
@@ -285,26 +210,28 @@ elif eleg == "3":
             if file.endswith('.rpy'):
                 total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
-                
+                destination_path = os.path.join(
+                    destination_folder, os.path.relpath(root, source_folder), file)
+
                 # Crear el directorio de destino si no existe
                 destination_dir = os.path.dirname(destination_path)
                 if not os.path.exists(destination_dir):
                     os.makedirs(destination_dir)
-                
+
                 print(f'Copying {file}')
                 try:
                     shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                
+
     with tqdm(total=total_files, desc="Copying files", unit="file") as pbar:
         for root, dirs, files in os.walk(source_folder):
             for file in files:
                 if file.endswith('.rpy'):
                     source_path = os.path.join(root, file)
-                    destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                    destination_path = os.path.join(
+                        destination_folder, os.path.relpath(root, source_folder), file)
                     try:
                         shutil.copy2(source_path, destination_path)
                     except Exception as e:
@@ -422,7 +349,8 @@ elif eleg == "7":
 
         percent_done = (i + 1) * 100 / total
 
-        stdscr.addstr(1, 0, '[' + '=' * int(percent_done) + '>' + '-' * (100 - int(percent_done)) + ']')
+        stdscr.addstr(1, 0, '[' + '=' * int(percent_done) +
+                      '>' + '-' * (100 - int(percent_done)) + ']')
 
         contador = f'{int(percent_done)}%'
 
@@ -466,26 +394,28 @@ elif eleg == "8":
             if file.endswith('.rpy'):
                 total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
-                
+                destination_path = os.path.join(
+                    destination_folder, os.path.relpath(root, source_folder), file)
+
                 # Crear el directorio de destino si no existe
                 destination_dir = os.path.dirname(destination_path)
                 if not os.path.exists(destination_dir):
                     os.makedirs(destination_dir)
-                
+
                 print(f'Copying {file}')
                 try:
                     shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                
+
     with tqdm(total=total_files, desc="Copying files", unit="file") as pbar:
         for root, dirs, files in os.walk(source_folder):
             for file in files:
                 if file.endswith('.rpy'):
                     source_path = os.path.join(root, file)
-                    destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                    destination_path = os.path.join(
+                        destination_folder, os.path.relpath(root, source_folder), file)
                     try:
                         shutil.copy2(source_path, destination_path)
                     except Exception as e:
@@ -526,26 +456,28 @@ elif eleg == "9":
             if file.endswith('.rpy'):
                 total_files += 1  # Incrementar el contador de archivos
                 source_path = os.path.join(root, file)
-                destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
-                
+                destination_path = os.path.join(
+                    destination_folder, os.path.relpath(root, source_folder), file)
+
                 # Crear el directorio de destino si no existe
                 destination_dir = os.path.dirname(destination_path)
                 if not os.path.exists(destination_dir):
                     os.makedirs(destination_dir)
-                
+
                 print(f'Copying {file}')
                 try:
                     shutil.copy2(source_path, destination_path)
                 except Exception as e:
                     print("Error copiando archivo:", e)
                 copied_files += 1
-                
+
     with tqdm(total=total_files, desc="Copying files", unit="file") as pbar:
         for root, dirs, files in os.walk(source_folder):
             for file in files:
                 if file.endswith('.rpy'):
                     source_path = os.path.join(root, file)
-                    destination_path = os.path.join(destination_folder, os.path.relpath(root, source_folder), file)
+                    destination_path = os.path.join(
+                        destination_folder, os.path.relpath(root, source_folder), file)
                     try:
                         shutil.copy2(source_path, destination_path)
                     except Exception as e:
@@ -588,7 +520,8 @@ elif eleg == "10":
                 progress = processed_files / file_count * 100
                 print(f'Progreso: {progress:.2f}%')
 
-                print(f'Resultados para {filename} guardados en {result_filename}')
+                print(
+                    f'Resultados para {filename} guardados en {result_filename}')
                 print(f'Total de matches []: {total_matches}')
 
     find_matches(r'\[.*?\]', 'resulcomi.txt')
@@ -760,6 +693,7 @@ elif eleg == "16":
         for l in lineas:
             f.write(l)
 elif eleg == "17":
+<<<<<<< HEAD
     import re
 
     archivo = "common.rpy"
@@ -830,8 +764,11 @@ elif eleg == "17":
     with open(archivo, "w", encoding="utf-8") as f:
         for l in lineas:
             f.write(l)
+=======
+    print("17 ok")
+>>>>>>> 4d63b0381021f1f1e55bda9cfc53b9158d9a62ae
 elif eleg == "18":
-    print ("ok18")
+    print("ok18")
 elif eleg == "19":
     print("ok19")
 elif eleg == "20":
