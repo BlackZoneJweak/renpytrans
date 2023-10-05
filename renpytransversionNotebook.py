@@ -83,14 +83,30 @@ if eleg == "1":
                     text = f.read()
 
                     cleaned = re.sub(
-                        r'</font><font style="vertical-align: inherit;">', '', text)
-                    cleaned = re.sub(
-                        r'<font style="vertical-align: inherit;">', '', cleaned)
-                    # Resto del código...
+                    r'</font><font style="vertical-align: inherit;">', '', text)
+                cleaned = re.sub(
+                    r'<font style="vertical-align: inherit;">', '', cleaned)
+                cleaned = re.sub(r'？', '?', cleaned)
+                cleaned = re.sub(r'。', '.', cleaned)
+                cleaned = re.sub(r'！', '!', cleaned)
+                cleaned = re.sub(r'“', '"', cleaned)
+                cleaned = re.sub(r'”', '"', cleaned)
+                cleaned = re.sub(r'：', ':', cleaned)
+                cleaned = re.sub(r'，', ',', cleaned)
+                cleaned = re.sub(r'（', '(', cleaned)
+                cleaned = re.sub(r'）', ')', cleaned)
+                cleaned = re.sub(r'</font>', '', cleaned)
+                cleaned = re.sub(r'<td>', '', cleaned)
+                cleaned = re.sub(r'</td>', '', cleaned)
+                cleaned = re.sub(r'<tr>', '', cleaned)
+                cleaned = re.sub(r'</tr>', '', cleaned)
+                # cleaned = re.sub(r'{i}', '', cleaned)
+                # cleaned = re.sub(r'{/i}', '', cleaned)
+                cleaned = re.sub(r'@@', '', cleaned)
 
-                    time.sleep(0.5)
-                    contador += 1
-                    bar.update(contador)
+                time.sleep(0.5)
+                contador += 1
+                bar.update(contador)
 
                 with open(os.path.join(root, 'cleaned_'+filename), 'w', encoding="utf-8") as f:
                     f.write(cleaned)
