@@ -104,6 +104,10 @@ if eleg == "1":
                 # cleaned = re.sub(r'{/i}', '', cleaned)
                 cleaned = re.sub(r'@@', '', cleaned)
 
+                patron = r'\\.+?"'
+                resultados = re.findall(patron, cleaned)
+                for resultado in resultados:
+                    cleaned = cleaned.replace(resultado, '@^' + resultado)
                 time.sleep(0.5)
                 contador += 1
                 bar.update(contador)
