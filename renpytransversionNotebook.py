@@ -545,7 +545,7 @@ elif eleg == "10":
                             matches = re.findall(pattern, line)
                             if matches:
                                 matches_by_line[i+1] = matches
-
+            
                     result_filename = os.path.join(root, filename + suffix)
                     with open(result_filename, 'w', encoding="utf-8") as f:
                         for line, matches in matches_by_line.items():
@@ -553,11 +553,10 @@ elif eleg == "10":
                                 f.write(f'Encontrado en la línea {line} {match}\n')
                                 total_matches += 1
                                 print(f'Encontrado en la línea {line} {match} \n')
-
+                    
                     processed_files += 1
                     progress = processed_files / file_count * 100
                     print(f'Progreso: {progress:.2f}%')
-
                     print(
                         f'Resultados para {filename} guardados en {result_filename}')
                     print(f'Total de matches []: {total_matches}')
