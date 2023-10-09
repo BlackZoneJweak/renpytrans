@@ -881,8 +881,8 @@ elif eleg == "19":
         r'new "@@¿Qué es eso\?"': 'new "<"',
         r'new "@@Página "': 'new "@@Página {} "',
         r'new "@@%A, %B %d %Y, %H:%M"': 'new "{#file_time}%A, %B %d %Y, %H:%M"',
-        r'new "new "@@A. El"': 'new "{#auto_page}A"',
-        r'new "new "@@Q. El"': 'new "{#auto_page}Q"',
+        r'new "@@A. El"': 'new "{#auto_page}A"',
+        r'new "@@Q. El"': 'new "{#auto_page}Q"',
     }
 
     lineas = []
