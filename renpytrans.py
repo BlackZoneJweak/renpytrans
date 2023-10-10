@@ -10,16 +10,24 @@
 8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
 9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
 10) buscar [] {} ()
-11) Reemplazar commam ESP 
-12) Reemplazar commam CHT 
+11) Reemplazar commam ESP por WEB 
+12) Reemplazar commam CHT por WEB
 13) Separar el .rpy en varios archivos
 14) Buscar dirección de google drives
 15) Reemplazar screens ESP
 16) Reemplazar screens CHT
 17) Nada aun 
-18) Nada aun
-19) Nada aun
-20) Nada aun1
+18) Reemplazar commam ESP por AI nllb200
+19) Reemplazar screens ESP por AI nllb200
+20) Reemplazar commam CHS por AI nllb200
+21) Reemplazar screens CHS por AI nllb200 
+22) Nada aun
+23) Nada aun
+24) Nada aun
+25) Nada aun 
+26) Nada aun
+27) Nada aun
+28) Nada aun
 """
 # imprimimos el menú en pantalla
 print("\033[36m")
@@ -35,16 +43,24 @@ print("""
 8) Copiar todos archivos .rpy a antigua que esta en esp a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝esp裡的所有.rpy到antigua\033[0m
 9) Copiar todos archivos .rpy a antigua que esta en chino a la carpeta projzv3 traducir \033[32m||\033[0m \033[31m 拷貝chino裡的所有.rpy到antigua\033[0m
 10) buscar [] {} ()
-11) Reemplazar commam ESP 
-12) Reemplazar commam CHT 
+11) Reemplazar commam ESP por WEB 
+12) Reemplazar commam CHT por WEB
 13) Separar el .rpy en varios archivos
 14) Buscar dirección de google drives
 15) Reemplazar screens ESP
 16) Reemplazar screens CHT
-17) Reemplazar commam ESP AI Trans
-18) Nada aun
-19) Nada aun
-20) Nada aun
+17) Nada aun 
+18) Reemplazar commam ESP por AI nllb200
+19) Reemplazar screens ESP por AI nllb200
+20) Reemplazar commam CHS por AI nllb200
+21) Reemplazar screens CHS por AI nllb200 
+22) Nada aun
+23) Nada aun
+24) Nada aun
+25) Nada aun 
+26) Nada aun
+27) Nada aun
+28) Nada aun
 """)
 print("\033[0m")
 
@@ -83,7 +99,7 @@ if eleg == "1":
                     text = f.read()
 
                     cleaned = re.sub(
-                        r'</font><font style="vertical-align: inherit;">', '', text)
+                    r'</font><font style="vertical-align: inherit;">', '', text)
                 cleaned = re.sub(
                     r'<font style="vertical-align: inherit;">', '', cleaned)
                 cleaned = re.sub(r'？', '?', cleaned)
@@ -104,6 +120,10 @@ if eleg == "1":
                 # cleaned = re.sub(r'{/i}', '', cleaned)
                 cleaned = re.sub(r'@@', '', cleaned)
 
+                patron = r'\\.+?"'
+                resultados = re.findall(patron, cleaned)
+                for resultado in resultados:
+                    cleaned = cleaned.replace(resultado, '@^' + resultado)
                 time.sleep(0.5)
                 contador += 1
                 bar.update(contador)
@@ -116,7 +136,7 @@ if eleg == "1":
         for filename in files:
             if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
                 os.rename(os.path.join(root, filename),
-                          os.path.join(root, filename.split('.')[0] + '.rpy.bak'))
+                        os.path.join(root, filename.split('.')[0] + '.rpy.bak'))
                 print(f"Procesando archivo {filename}")
     print("\n")
 
@@ -126,7 +146,7 @@ if eleg == "1":
                 cleaned_name = filename
                 original_name = filename.replace('cleaned_', '')
                 os.rename(os.path.join(root, cleaned_name),
-                          os.path.join(root, original_name))
+                        os.path.join(root, original_name))
                 print(f"cambiando nombre de archivo {filename}")
 
     end_time = time.time()
@@ -525,21 +545,18 @@ elif eleg == "10":
                             matches = re.findall(pattern, line)
                             if matches:
                                 matches_by_line[i+1] = matches
-
+            
                     result_filename = os.path.join(root, filename + suffix)
                     with open(result_filename, 'w', encoding="utf-8") as f:
                         for line, matches in matches_by_line.items():
                             for match in matches:
-                                f.write(
-                                    f'Encontrado en la línea {line} {match}\n')
+                                f.write(f'Encontrado en la línea {line} {match}\n')
                                 total_matches += 1
-                                print(
-                                    f'Encontrado en la línea {line} {match} \n')
-
+                                print(f'Encontrado en la línea {line} {match} \n')
+                    
                     processed_files += 1
                     progress = processed_files / file_count * 100
                     print(f'Progreso: {progress:.2f}%')
-
                     print(
                         f'Resultados para {filename} guardados en {result_filename}')
                     print(f'Total de matches []: {total_matches}')
@@ -713,6 +730,8 @@ elif eleg == "16":
         for l in lineas:
             f.write(l)
 elif eleg == "17":
+    print("ok17")
+elif eleg == "18":
     import re
 
     archivo = "common.rpy"
@@ -724,52 +743,52 @@ elif eleg == "17":
         # r"\[problema\]": "[problem]",
         # r"\[nombre\]": "[name]",
         # r"\[tipo\]": "[kind]",
-        r'new "lunes"': 'new "{#weekday}Lunes"',
-        r'new "martes"': 'new "{#weekday}Martes"',
-        r'new "Miércoles"': 'new "{#weekday}Miércoles"',
-        r'new "Jueves"': 'new "{#weekday}Jueves"',
-        r'new "Viernes"': 'new "{#weekday}Viernes"',
-        r'new "Sábado"': 'new "{#weekday}Sábado"',
-        r'new "Domingo"': 'new "{#weekday}Domingo"',
-        r'new "Mon"': 'new "{#weekday_short}Lun"',
-        r'new "Tue"': 'new "{#weekday_short}Mar"',
-        r'new "Encuentro"': 'new "{#weekday_short}Mie"',
-        r'new "Tu"': 'new "{#weekday_short}Jue"',
-        r'new "libre"': 'new "{#weekday_short}Vie"',
-        r'new "El sat"': 'new "{#weekday_short}Sab"',
-        r'new "El sol"': 'new "{#weekday_short}Dom"',
-        r'new "enero"': 'new "{#month}Enero"',
-        r'new "Febrero"': 'new "{#month}Febrero"',
-        r'new "Marzo"': 'new "{#month}Marzo"',
-        r'new "abril"': 'new "{#month}Abril"',
-        r'new "May"': 'new "{#month}Mayo"',
-        r'new "Junio"': 'new "{#month}Junio"',
-        r'new "Julio"': 'new "{#month}Julio"',
-        r'new "agosto"': 'new "{#month}Agosto"',
-        r'new "septiembre"': 'new "{#month}Septiembre"',
-        r'new "octubre"': 'new "{#month}Octubre"',
-        r'new "noviembre"': 'new "{#month}Noviembre"',
-        r'new "Diciembre"': 'new "{#month}Diciembre"',
-        r'new "Jan"': 'new "{#month_short}Ene"',
-        r'new "Feb"': 'new "{#month_short}Feb"',
-        r'new "Mar"': 'new "{#month_short}Mar"',
-        r'new "Apr"': 'new "{#month_short}Abr"',
-        # r'new "May"': 'new "{#month_short}May"',
-        r'new "Jun"': 'new "{#month_short}Jun"',
-        r'new "Jul"': 'new "{#month_short}Jul"',
-        r'new "Aug"': 'new "{#month_short}Ago"',
-        r'new "Sep"': 'new "{#month_short}Sep"',
-        r'new "Oct"': 'new "{#month_short}Oct"',
-        r'new "Nuevo"': 'new "{#month_short}Nov"',
-        r'new "Dec"': 'new "{#month_short}Dic"',
-        r'new "Directorias abiertas."': 'new "Directorias [text] abiertas."',
-        r'new "\( La declaración \)"': 'new "(La declaración)"',
-        r'new "\( Los atributos \)"': 'new "(Los atributos)"',
-        r'new "La transformación\)"': 'new "(La transformación)"',
-        r'new "La transición\)"': 'new "(La transición)"',
-        r'new "\( El escondido \)"': 'new "(El escondido)"',
-        r'new "El canal\)"': 'new "(El canal)"',
-        r'new "Sin embargo, el tipo desconocido."': 'new "Sin embargo {}, el tipo desconocido {}."',
+        r'new "@@El lunes"': 'new "{#weekday}Lunes"',
+        r'new "@@El martes"': 'new "{#weekday}Martes"',
+        r'new "@@Miércoles"': 'new "{#weekday}Miércoles"',
+        r'new "@@Jueves"': 'new "{#weekday}Jueves"',
+        r'new "@@Viernes"': 'new "{#weekday}Viernes"',
+        r'new "@@El sábado"': 'new "{#weekday}Sábado"',
+        r'new "@@El domingo"': 'new "{#weekday}Domingo"',
+        r'new "@@El Mon"': 'new "{#weekday_short}Lun"',
+        r'new "@@El día de la muerte"': 'new "{#weekday_short}Mar"',
+        r'new "@@Casado"': 'new "{#weekday_short}Mie"',
+        r'new "@@El de la"': 'new "{#weekday_short}Jue"',
+        r'new "@@Fr"': 'new "{#weekday_short}Vie"',
+        r'new "@@El sat"': 'new "{#weekday_short}Sab"',
+        r'new "@@El sol"': 'new "{#weekday_short}Dom"',
+        r'new "@@1 de enero"': 'new "{#month}Enero"',
+        r'new "@@Febrero"': 'new "{#month}Febrero"',
+        r'new "@@Marzo"': 'new "{#month}Marzo"',
+        r'new "@@El 1 de abril"': 'new "{#month}Abril"',
+        r'new "@@El 1 de mayo"': 'new "{#month}Mayo"',
+        r'new "@@Junio"': 'new "{#month}Junio"',
+        r'new "@@Julio"': 'new "{#month}Julio"',
+        r'new "@@Agosto"': 'new "{#month}Agosto"',
+        r'new "@@Septiembre"': 'new "{#month}Septiembre"',
+        r'new "@@Octubre"': 'new "{#month}Octubre"',
+        r'new "@@El 1 de noviembre"': 'new "{#month}Noviembre"',
+        r'new "@@Diciembre"': 'new "{#month}Diciembre"',
+        r'new "@@El día de hoy"': 'new "{#month_short}Ene"',
+        # r'new "@@Febrero"': 'new "{#month_short}Feb"',
+        r'new "@@Mar"': 'new "{#month_short}Mar"',
+        r'new "@@Apr"': 'new "{#month_short}Abr"',
+        # r'new "@@El 1 de mayo"': 'new "{#month_short}May"',
+        r'new "@@El año"': 'new "{#month_short}Jun"',
+        # r'new "Jul"': 'new "{#month_short}Jul"',
+        # r'new "Aug"': 'new "{#month_short}Ago"',
+        # r'new "@@Septiembre"': 'new "{#month_short}Sep"',
+        r'new "@@Oct"': 'new "{#month_short}Oct"',
+        r'new "@@El 1 de noviembre"': 'new "{#month_short}Nov"',
+        r'new "@@Dec"': 'new "{#month_short}Dic"',
+        r'new "@@¿Qué es eso\?"': 'new "(esconder)"',
+        r'new "new "@@Mientras desempaca, tipo desconocido."': 'new "@@Mientras desempaca{}, tipo desconocido{}."',
+        # r'new "\( Los atributos \)"': 'new "(Los atributos)"',
+        # r'new "La transformación\)"': 'new "(La transformación)"',
+        # r'new "La transición\)"': 'new "(La transición)"',
+        # r'new "\( El escondido \)"': 'new "(El escondido)"',
+        # r'new "El canal\)"': 'new "(El canal)"',
+        # r'new "Sin embargo, el tipo desconocido."': 'new "Sin embargo {}, el tipo desconocido {}."',
     }
 
     lineas = []
@@ -783,12 +802,151 @@ elif eleg == "17":
     with open(archivo, "w", encoding="utf-8") as f:
         for l in lineas:
             f.write(l)
-elif eleg == "18":
-    print("ok18")
 elif eleg == "19":
-    print("ok19")
+    import re
+
+    archivo = "screens.rpy"
+
+    cambios = {
+        r'new "@@>"': 'new ">"',
+        r'new "@@¿Qué es eso\?"': 'new "<"',
+        r'new "@@Página "': 'new "@@Página {} "',
+        r'new "@@%A, %B %d %Y, %H:%M"': 'new "{#file_time}%A, %B %d %Y, %H:%M"',
+        r'new "@@A. El"': 'new "{#auto_page}A"',
+        r'new "@@Q. El"': 'new "{#auto_page}Q"',
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
 elif eleg == "20":
-    print("ok20")
+    import re
+
+    archivo = "common.rpy"
+
+    cambios = {
+        # r"\[texto\]": "[text]",
+        # r"\[índice\]": "[index]",
+        # r"\[recuento\]": "[count]",
+        # r"\[problema\]": "[problem]",
+        # r"\[nombre\]": "[name]",
+        # r"\[tipo\]": "[kind]",
+        r'new "@@电脑电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑,电脑等."': 'new "@@启用剪贴板发声."',
+        r'new "@@酒吧"': 'new "@@移动条"',
+        r'new "@@星期一"': 'new "{#weekday}星期一"',
+        r'new "@@星期二"': 'new "{#weekday}星期二"',
+        r'new "@@星期三"': 'new "{#weekday}星期三"',
+        r'new "@@星期四"': 'new "{#weekday}星期四"',
+        r'new "@@星期五"': 'new "{#weekday}星期五"',
+        r'new "@@星期六"': 'new "{#weekday}星期六"',
+        r'new "@@星期日"': 'new "{#weekday}星期日"',
+        r'new "@@周一"': 'new "{#weekday_short}周一"',
+        r'new "{#weekday_short}Tue"': 'new "{#weekday_short}周二"',
+        r'new "@@结婚"': 'new "{#weekday_short}周三"',
+        r'new "{#weekday_short}Thu': 'new "{#weekday_short}周四"',
+        r'new "@@星期五"': 'new "{#weekday_short}周五"',
+        r'new "@@坐标"': 'new "{#weekday_short}周六"',
+        r'new "@@太阳"': 'new "{#weekday_short}周日"',
+        r'new "@@十一月"': 'new "{#month}一月"',
+        r'new "@@2月"': 'new "{#month}二月"',
+        r'new "@@时间:"': 'new "{#month}三月"',
+        # r'new "@@El 1 de abril"': 'new "{#month}Abril"',
+        r'new "@@五月"': 'new "{#month}五月"',
+        r'new "@@六月"': 'new "{#month}六月"',
+        r'new "@@七月"': 'new "{#month}七月"',
+        r'new "@@八月"': 'new "{#month}八月"',
+        r'new "@@9月"': 'new "{#month}九月"',
+        r'new "@@10月"': 'new "{#month}十月"',
+        r'new "@@11月"': 'new "{#month}十一月"',
+        r'new "@@12月"': 'new "{#month}十二月"',
+        r'new "{#month_short}Jan"': 'new "{#month_short}一月"',
+        # r'new "@@Febrero"': 'new "{#month_short}Feb"',
+        r'new "{#month_short}Mar"': 'new "{#month_short}三月"',
+        r'new "@@时间"': 'new "{#month_short}四月"',
+        # r'new "@@El 1 de mayo"': 'new "{#month_short}May"',
+        # r'new "@@El año"': 'new "{#month_short}Jun"',
+        r'new "@@周六"': 'new "{#month_short}七月"',
+        # r'new "Aug"': 'new "{#month_short}Ago"',
+        # r'new "@@Septiembre"': 'new "{#month_short}Sep"',
+        # r'new "@@Oct"': 'new "{#month_short}Oct"',
+        r'new "@@十月"': 'new "{#month_short}十二月"',
+        r'new "@@十一月"': 'new "{#month_short}十一月"',
+        r'new "@@¿Qué es eso\?"': 'new "(esconder)"',
+        r'new "new "@@其他类型:"': 'new "%b %d, %H:%M"',
+        r'" Shift\+C"': "'shift+C'",
+        r'"alt\+shift\+V"': "'alt+shift+V'",
+        r'"v"': "'v'",
+        r'"是"': "'是'",
+        r'new "@@在打包时,不知名的类型."': 'new "@@在打包时{},不知名的类型{}."',
+        r'"\[控制!s\]"': "'[control!s]'",
+        # r'new "La transformación\)"': 'new "(La transformación)"',
+        # r'new "La transición\)"': 'new "(La transición)"',
+        # r'new "\( El escondido \)"': 'new "(El escondido)"',
+        # r'new "El canal\)"': 'new "(El canal)"',
+        # r'new "Sin embargo, el tipo desconocido."': 'new "Sin embargo {}, el tipo desconocido {}."',
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
+elif eleg == "21":
+    import re
+
+    archivo = "screens.rpy"
+
+    cambios = {
+        r'new "@@汽车"': 'new "@@自动"',
+        r'new "@@预言"': 'new "@@设定"',
+        r'new "@@页面"': 'new "@@页面{}"',
+        r'new "@@,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"': 'new "@@{#file_time}%A, %B %d %Y, %H:%M"',
+        r'new "@@其他"': 'new "@@<"',
+        r'new "@@问题"': 'new "@@{#quick_page}Q',
+    #     r'new "@@%A, %B %d %Y, %H:%M"': 'new "{#file_time}%A, %B %d %Y, %H:%M"',
+    #     r'new "@@A. El"': 'new "{#auto_page}A"',
+    #     r'new "@@Q. El"': 'new "{#auto_page}Q"',
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
+elif eleg == "22":
+    print("ok22")
+elif eleg == "23":
+    print("ok23")
+elif eleg == "24":
+    print("ok24")
+elif eleg == "25":
+    print("ok25")
+elif eleg == "26":
+    print("ok26")
+elif eleg == "27":
+    print("ok27")
+elif eleg == "28":
+    print("ok28")
 else:
     print("Opción no es valido")
     exec(open("renpytrans.py", encoding="utf-8").read())
