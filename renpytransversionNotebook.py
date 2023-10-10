@@ -880,7 +880,7 @@ elif eleg == "20":
         r'new "@@十月"': 'new "{#month_short}十二月"',
         r'new "@@十一月"': 'new "{#month_short}十一月"',
         r'new "@@¿Qué es eso\?"': 'new "(esconder)"',
-        r'new "new "@@@其他类型:"': 'new "%b %d, %H:%M"',
+        r'new "new "@@其他类型:"': 'new "%b %d, %H:%M"',
         r'" Shift\+C"': "'shift+C'",
         r'"alt\+shift\+V"': "'alt+shift+V'",
         r'"v"': "'v'",
