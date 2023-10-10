@@ -886,7 +886,7 @@ elif eleg == "20":
         r'"v"': "'v'",
         r'"是"': "'是'",
         r'new "@@在打包时,不知名的类型."': 'new "@@在打包时{},不知名的类型{}."',
-        r'"\[控件!s\]"': "'[control!s]'",un
+        r'"\[控件!s\]"': "'[control!s]'",
         # r'new "La transformación\)"': 'new "(La transformación)"',
         # r'new "La transición\)"': 'new "(La transición)"',
         # r'new "\( El escondido \)"': 'new "(El escondido)"',
