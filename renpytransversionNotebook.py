@@ -19,8 +19,8 @@
 17) Nada aun 
 18) Reemplazar commam ESP por AI nllb200
 19) Reemplazar screens ESP por AI nllb200
-20) Nada aun
-21) Nada aun 
+20) Reemplazar commam CHS por AI nllb200
+21) Reemplazar screens CHS por AI nllb200 
 22) Nada aun
 23) Nada aun
 24) Nada aun
@@ -52,8 +52,8 @@ print("""
 17) Nada aun 
 18) Reemplazar commam ESP por AI nllb200
 19) Reemplazar screens ESP por AI nllb200
-20) Nada aun
-21) Nada aun 
+20) Reemplazar commam CHS por AI nllb200
+21) Reemplazar screens CHS por AI nllb200 
 22) Nada aun
 23) Nada aun
 24) Nada aun
@@ -730,76 +730,7 @@ elif eleg == "16":
         for l in lineas:
             f.write(l)
 elif eleg == "17":
-    import re
-
-    archivo = "common.rpy"
-
-    cambios = {
-        # r"\[texto\]": "[text]",
-        # r"\[índice\]": "[index]",
-        # r"\[recuento\]": "[count]",
-        # r"\[problema\]": "[problem]",
-        # r"\[nombre\]": "[name]",
-        # r"\[tipo\]": "[kind]",
-        r'new "lunes"': 'new "{#weekday}Lunes"',
-        r'new "martes"': 'new "{#weekday}Martes"',
-        r'new "Miércoles"': 'new "{#weekday}Miércoles"',
-        r'new "Jueves"': 'new "{#weekday}Jueves"',
-        r'new "Viernes"': 'new "{#weekday}Viernes"',
-        r'new "Sábado"': 'new "{#weekday}Sábado"',
-        r'new "Domingo"': 'new "{#weekday}Domingo"',
-        r'new "Mon"': 'new "{#weekday_short}Lun"',
-        r'new "Tue"': 'new "{#weekday_short}Mar"',
-        r'new "Encuentro"': 'new "{#weekday_short}Mie"',
-        r'new "Tu"': 'new "{#weekday_short}Jue"',
-        r'new "libre"': 'new "{#weekday_short}Vie"',
-        r'new "El sat"': 'new "{#weekday_short}Sab"',
-        r'new "El sol"': 'new "{#weekday_short}Dom"',
-        r'new "enero"': 'new "{#month}Enero"',
-        r'new "Febrero"': 'new "{#month}Febrero"',
-        r'new "Marzo"': 'new "{#month}Marzo"',
-        r'new "abril"': 'new "{#month}Abril"',
-        r'new "May"': 'new "{#month}Mayo"',
-        r'new "Junio"': 'new "{#month}Junio"',
-        r'new "Julio"': 'new "{#month}Julio"',
-        r'new "agosto"': 'new "{#month}Agosto"',
-        r'new "septiembre"': 'new "{#month}Septiembre"',
-        r'new "octubre"': 'new "{#month}Octubre"',
-        r'new "noviembre"': 'new "{#month}Noviembre"',
-        r'new "Diciembre"': 'new "{#month}Diciembre"',
-        r'new "Jan"': 'new "{#month_short}Ene"',
-        r'new "Feb"': 'new "{#month_short}Feb"',
-        r'new "Mar"': 'new "{#month_short}Mar"',
-        r'new "Apr"': 'new "{#month_short}Abr"',
-        # r'new "May"': 'new "{#month_short}May"',
-        r'new "Jun"': 'new "{#month_short}Jun"',
-        r'new "Jul"': 'new "{#month_short}Jul"',
-        r'new "Aug"': 'new "{#month_short}Ago"',
-        r'new "Sep"': 'new "{#month_short}Sep"',
-        r'new "Oct"': 'new "{#month_short}Oct"',
-        r'new "Nuevo"': 'new "{#month_short}Nov"',
-        r'new "Dec"': 'new "{#month_short}Dic"',
-        r'new "Directorias abiertas."': 'new "Directorias [text] abiertas."',
-        r'new "\( La declaración \)"': 'new "(La declaración)"',
-        r'new "\( Los atributos \)"': 'new "(Los atributos)"',
-        r'new "La transformación\)"': 'new "(La transformación)"',
-        r'new "La transición\)"': 'new "(La transición)"',
-        r'new "\( El escondido \)"': 'new "(El escondido)"',
-        r'new "El canal\)"': 'new "(El canal)"',
-        r'new "Sin embargo, el tipo desconocido."': 'new "Sin embargo {}, el tipo desconocido {}."',
-    }
-
-    lineas = []
-    with open(archivo, "r", encoding="utf-8") as f:
-        for linea in f:
-            for buscar, reemplazar in cambios.items():
-                linea = re.sub(buscar, reemplazar, linea)
-            lineas.append(linea)
-            print(linea)
-
-    with open(archivo, "w", encoding="utf-8") as f:
-        for l in lineas:
-            f.write(l)
+    print("ok17")
 elif eleg == "18":
     import re
 
@@ -897,9 +828,104 @@ elif eleg == "19":
         for l in lineas:
             f.write(l)
 elif eleg == "20":
-    print("ok20")
+    import re
+
+    archivo = "common.rpy"
+
+    cambios = {
+        # r"\[texto\]": "[text]",
+        # r"\[índice\]": "[index]",
+        # r"\[recuento\]": "[count]",
+        # r"\[problema\]": "[problem]",
+        # r"\[nombre\]": "[name]",
+        # r"\[tipo\]": "[kind]",
+        r'new "@@El lunes"': 'new "{#weekday}Lunes"',
+        r'new "@@El martes"': 'new "{#weekday}Martes"',
+        r'new "@@Miércoles"': 'new "{#weekday}Miércoles"',
+        r'new "@@Jueves"': 'new "{#weekday}Jueves"',
+        r'new "@@Viernes"': 'new "{#weekday}Viernes"',
+        r'new "@@El sábado"': 'new "{#weekday}Sábado"',
+        r'new "@@El domingo"': 'new "{#weekday}Domingo"',
+        r'new "@@El Mon"': 'new "{#weekday_short}Lun"',
+        r'new "@@El día de la muerte"': 'new "{#weekday_short}Mar"',
+        r'new "@@Casado"': 'new "{#weekday_short}Mie"',
+        r'new "@@El de la"': 'new "{#weekday_short}Jue"',
+        r'new "@@Fr"': 'new "{#weekday_short}Vie"',
+        r'new "@@El sat"': 'new "{#weekday_short}Sab"',
+        r'new "@@El sol"': 'new "{#weekday_short}Dom"',
+        r'new "@@1 de enero"': 'new "{#month}Enero"',
+        r'new "@@Febrero"': 'new "{#month}Febrero"',
+        r'new "@@Marzo"': 'new "{#month}Marzo"',
+        r'new "@@El 1 de abril"': 'new "{#month}Abril"',
+        r'new "@@El 1 de mayo"': 'new "{#month}Mayo"',
+        r'new "@@Junio"': 'new "{#month}Junio"',
+        r'new "@@Julio"': 'new "{#month}Julio"',
+        r'new "@@Agosto"': 'new "{#month}Agosto"',
+        r'new "@@Septiembre"': 'new "{#month}Septiembre"',
+        r'new "@@Octubre"': 'new "{#month}Octubre"',
+        r'new "@@El 1 de noviembre"': 'new "{#month}Noviembre"',
+        r'new "@@Diciembre"': 'new "{#month}Diciembre"',
+        r'new "@@El día de hoy"': 'new "{#month_short}Ene"',
+        # r'new "@@Febrero"': 'new "{#month_short}Feb"',
+        r'new "@@Mar"': 'new "{#month_short}Mar"',
+        r'new "@@Apr"': 'new "{#month_short}Abr"',
+        # r'new "@@El 1 de mayo"': 'new "{#month_short}May"',
+        r'new "@@El año"': 'new "{#month_short}Jun"',
+        # r'new "Jul"': 'new "{#month_short}Jul"',
+        # r'new "Aug"': 'new "{#month_short}Ago"',
+        # r'new "@@Septiembre"': 'new "{#month_short}Sep"',
+        r'new "@@Oct"': 'new "{#month_short}Oct"',
+        r'new "@@El 1 de noviembre"': 'new "{#month_short}Nov"',
+        r'new "@@Dec"': 'new "{#month_short}Dic"',
+        r'new "@@¿Qué es eso\?"': 'new "(esconder)"',
+        r'new "new "@@Mientras desempaca, tipo desconocido."': 'new "@@Mientras desempaca{}, tipo desconocido{}."',
+        # r'new "\( Los atributos \)"': 'new "(Los atributos)"',
+        # r'new "La transformación\)"': 'new "(La transformación)"',
+        # r'new "La transición\)"': 'new "(La transición)"',
+        # r'new "\( El escondido \)"': 'new "(El escondido)"',
+        # r'new "El canal\)"': 'new "(El canal)"',
+        # r'new "Sin embargo, el tipo desconocido."': 'new "Sin embargo {}, el tipo desconocido {}."',
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
 elif eleg == "21":
-    print("ok21")
+    import re
+
+    archivo = "screens.rpy"
+
+    cambios = {
+        r'new "@@汽车"': 'new "@@自动"',
+        r'new "@@预言"': 'new "@@设定"',
+        r'new "@@页面"': 'new "@@页面{}"',
+        r'new "@@,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"': 'new "{#file_time}%A, %B %d %Y, %H:%M"',
+        r'new "@@其他"': 'new "<"',
+        r'new "@@问题"': 'new "{#quick_page}Q',
+        r'new "@@%A, %B %d %Y, %H:%M"': 'new "{#file_time}%A, %B %d %Y, %H:%M"',
+        r'new "@@A. El"': 'new "{#auto_page}A"',
+        r'new "@@Q. El"': 'new "{#auto_page}Q"',
+    }
+
+    lineas = []
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            for buscar, reemplazar in cambios.items():
+                linea = re.sub(buscar, reemplazar, linea)
+            lineas.append(linea)
+            print(linea)
+
+    with open(archivo, "w", encoding="utf-8") as f:
+        for l in lineas:
+            f.write(l)
 elif eleg == "22":
     print("ok22")
 elif eleg == "23":
