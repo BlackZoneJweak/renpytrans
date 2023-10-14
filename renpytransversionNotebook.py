@@ -570,12 +570,12 @@ elif eleg == "11":
     archivo = "common.rpy"
 
     cambios = {
-        # r"\[texto\]": "[text]",
-        # r"\[índice\]": "[index]",
-        # r"\[recuento\]": "[count]",
-        # r"\[problema\]": "[problem]",
-        # r"\[nombre\]": "[name]",
-        # r"\[tipo\]": "[kind]",
+        r"\[texto\]": "[text]",
+        r"\[índice\]": "[index]",
+        r"\[recuento\]": "[count]",
+        r"\[problema\]": "[problem]",
+        r"\[nombre\]": "[name]",
+        r"\[tipo\]": "[kind]",
         r'new "{#weekday_short}Sol"': 'new "{#weekday_short}Dom"',
         r'new "{#month}August"': 'new "{#month}Agosto"',
         r'new "{#month_short}abr"': 'new "{#month_short}Abr"',
