@@ -21,7 +21,7 @@
 19) Reemplazar screens ESP por AI nllb200
 20) Reemplazar commam CHS por AI nllb200
 21) Reemplazar screens CHS por AI nllb200 
-22) Nada aun
+22) Separar las linea de [] {} ()
 23) Nada aun
 24) Nada aun
 25) Nada aun 
@@ -54,7 +54,7 @@ print("""
 19) Reemplazar screens ESP por AI nllb200
 20) Reemplazar commam CHS por AI nllb200
 21) Reemplazar screens CHS por AI nllb200 
-22) Nada aun
+22) Separar las linea de [] {} ()
 23) Nada aun
 24) Nada aun
 25) Nada aun 
