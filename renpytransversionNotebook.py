@@ -934,7 +934,42 @@ elif eleg == "21":
         for l in lineas:
             f.write(l)
 elif eleg == "22":
-    print("ok22")
+    import os
+
+    folder = "."  # Carpeta actual
+    output_suffix = "_salto.txt"
+
+    # Recorrer los archivos en la carpeta
+    for filename in os.listdir(folder):
+        if filename.endswith(".rpyresulcomi.txt") or filename.endswith(".rpyresulllave.txt") or filename.endswith(".rpyresulllave1.txt"):
+            input_file = os.path.join(folder, filename)
+            output_file = os.path.join(
+                folder, filename.replace(".txt", output_suffix))
+
+            with open(input_file, 'r') as file:
+                lines = file.readlines()
+
+            with open(output_file, 'w') as file:
+                for i in range(len(lines)-1):
+                    current_line = lines[i]
+                    next_line = lines[i+1]
+
+                    if current_line.startswith("Encontrado en la línea") and next_line.startswith("Encontrado en la línea"):
+                        current_line_number = int(
+                            ''.join(filter(str.isdigit, current_line)))
+                        next_line_number = int(
+                            ''.join(filter(str.isdigit, next_line)))
+
+                        if next_line_number == current_line_number + 1:
+                            # Hacer un salto de línea
+                            file.write("\n")
+
+                    # Escribir la línea actual en el archivo de salida
+                    file.write(current_line)
+                    print(current_line)
+
+                # Escribir la última línea en el archivo de salida
+                file.write(lines[-1])
 elif eleg == "23":
     print("ok23")
 elif eleg == "24":
