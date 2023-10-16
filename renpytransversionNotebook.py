@@ -117,7 +117,7 @@ if eleg == "1":
                 cleaned = re.sub(r'<tr>', '', cleaned)
                 cleaned = re.sub(r'</tr>', '', cleaned)
                 # cleaned = re.sub(r'{i}', '', cleaned)
-                # cleaned = re.sub(r'{/i}', '', cleaned)
+                cleaned = re.sub(r'@$', '', cleaned)
                 cleaned = re.sub(r'@@', '', cleaned)
 
                 patron = r'\\.+?"'
