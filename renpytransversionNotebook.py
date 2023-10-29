@@ -953,6 +953,7 @@ elif eleg == "22":
                         if re.match(r"Encontrado en la línea \d+", line):
                             
                             current_line = int(re.search(r"\d+", line).group())
+                            current_line2 = current_line + 1
                             next_line = next(f_input)
                             
                             if current_line2 == current_line + 1:
