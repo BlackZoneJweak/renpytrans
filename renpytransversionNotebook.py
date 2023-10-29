@@ -934,41 +934,39 @@ elif eleg == "21":
             f.write(l)
 elif eleg == "22":
     import os
+    import re 
+    from tqdm import tqdm
 
-    folder = "."  # Carpeta actual
-    output_suffix = "_salto.txt"
+    for root, dirs, files in os.walk("."):
 
-    # Recorrer los archivos en la carpeta
-    for filename in os.listdir(folder):
-        if filename.endswith(".rpyresulcomi.txt") or filename.endswith(".rpyresulllave.txt") or filename.endswith(".rpyresulllave1.txt"):
-            input_file = os.path.join(folder, filename)
-            output_file = os.path.join(
-                folder, filename.replace(".txt", output_suffix))
-
-            with open(input_file, 'r') as file:
-                lines = file.readlines()
-
-            with open(output_file, 'w') as file:
-                for i in range(len(lines)-1):
-                    current_line = lines[i]
-                    next_line = lines[i+1]
-
-                    if current_line.startswith("Encontrado en la línea") and next_line.startswith("Encontrado en la línea"):
-                        current_line_number = int(
-                            ''.join(filter(str.isdigit, current_line)))
-                        next_line_number = int(
-                            ''.join(filter(str.isdigit, next_line)))
-
-                        if next_line_number == current_line_number + 1:
-                            # Hacer un salto de línea
-                            file.write("\n")
-
-                    # Escribir la línea actual en el archivo de salida
-                    file.write(current_line)
-                    print(current_line)
-
-                # Escribir la última línea en el archivo de salida
-                file.write(lines[-1])
+        for file in tqdm(files):
+            
+            if file.endswith(".txt"):
+            
+            input_file = os.path.join(root, file)
+            output_file = input_file.replace(".txt", "_salida.txt")
+            
+            with open(input_file) as f_input, open(output_file, "w") as f_output:
+            
+                for line in f_input:
+                
+                    if re.match(r"Encontrado en la línea \d+", line):
+                        
+                        current_line = int(re.search(r"\d+", line).group())
+                        next_line = next(f_input)
+                        
+                        if current_line + 1 == int(re.search(r"\d+", next_line).group()):
+                            f_output.write(line)  
+                            f_output.write("\n\n")
+                        
+                        else:
+                            f_output.write(line)
+                            f_output.write(next_line)
+                        
+                    else:
+                        f_output.write(line)
+                    
+        print("Proceso completado")
 elif eleg == "23":
     print("ok23")
 elif eleg == "24":
