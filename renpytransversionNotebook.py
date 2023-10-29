@@ -943,28 +943,29 @@ elif eleg == "22":
             
             if file.endswith(".txt"):
             
-            input_file = os.path.join(root, file)
-            output_file = input_file.replace(".txt", "_salida.txt")
-            
-            with open(input_file) as f_input, open(output_file, "w") as f_output:
-            
-                for line in f_input:
+                input_file = os.path.join(root, file)
+                output_file = input_file.replace(".txt", "_salida.txt")
                 
-                    if re.match(r"Encontrado en la línea \d+", line):
-                        
-                        current_line = int(re.search(r"\d+", line).group())
-                        next_line = next(f_input)
-                        
-                        if current_line + 1 == int(re.search(r"\d+", next_line).group()):
-                            f_output.write(line)  
-                            f_output.write("\n\n")
-                        
+                with open(input_file) as f_input, open(output_file, "w") as f_output:
+                
+                    for line in f_input:
+                    
+                        if re.match(r"Encontrado en la línea \d+", line):
+                            
+                            current_line = int(re.search(r"\d+", line).group())
+                            next_line = next(f_input)
+                            
+                            if current_line2 == current_line + 1:
+                                print (line)
+                                print (next_line)
+                                f_output.write(line)
+                                f_output.write(next_line)
+                                f_output.write("\n")
+                            else:
+                                print ("B")
+                            
                         else:
                             f_output.write(line)
-                            f_output.write(next_line)
-                        
-                    else:
-                        f_output.write(line)
                     
         print("Proceso completado")
 elif eleg == "23":
