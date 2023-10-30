@@ -937,37 +937,37 @@ elif eleg == "22":
     import re 
     from tqdm import tqdm
 
-    for root, dirs, files in os.walk("."):
-
-        for file in tqdm(files):
+    # for root, dirs, files in os.walk("."):
+    files = os.listdir(".")
+    for file in tqdm(files):
+        
+        if file.endswith(".txt"):
+        
+            input_file = os.path.join(file)
+            output_file = input_file.replace(".txt", "_salida.txt")
             
-            if file.endswith(".txt"):
+            with open(input_file) as f_input, open(output_file, "w") as f_output:
             
-                input_file = os.path.join(root, file)
-                output_file = input_file.replace(".txt", "_salida.txt")
+                for line in f_input:
                 
-                with open(input_file) as f_input, open(output_file, "w") as f_output:
-                
-                    for line in f_input:
-                    
-                        if re.match(r"Encontrado en la línea \d+", line):
-                            
-                            current_line = int(re.search(r"\d+", line).group())
-                            current_line2 = current_line + 1
-                            next_line = next(f_input)
-                            
-                            if current_line2 == current_line + 1:
-                                print (line)
-                                print (next_line)
-                                f_output.write(line)
-                                f_output.write(next_line)
-                                f_output.write("\n")
-                            else:
-                                print ("B")
-                            
-                        else:
+                    if re.match(r"Encontrado en la línea \d+", line):
+                        
+                        current_line = int(re.search(r"\d+", line).group())
+                        current_line2 = current_line + 1
+                        next_line = next(f_input)
+                        
+                        if current_line2 == current_line + 1:
+                            print (line)
+                            print (next_line)
                             f_output.write(line)
-                    
+                            f_output.write(next_line)
+                            f_output.write("\n")
+                        else:
+                            print ("B")
+                        
+                    else:
+                        f_output.write(line)
+                
         print("Proceso completado")
 elif eleg == "23":
     print("ok23")
