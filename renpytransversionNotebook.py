@@ -99,7 +99,7 @@ if eleg == "1":
                     text = f.read()
 
                     cleaned = re.sub(
-                    r'</font><font style="vertical-align: inherit;">', '', text)
+                        r'</font><font style="vertical-align: inherit;">', '', text)
                 cleaned = re.sub(
                     r'<font style="vertical-align: inherit;">', '', cleaned)
                 cleaned = re.sub(r'？', '?', cleaned)
@@ -135,7 +135,7 @@ if eleg == "1":
         for filename in files:
             if filename.endswith('.rpy') and not filename.startswith('cleaned_'):
                 os.rename(os.path.join(root, filename),
-                        os.path.join(root, filename.split('.')[0] + '.rpy.bak'))
+                          os.path.join(root, filename.split('.')[0] + '.rpy.bak'))
                 print(f"Procesando archivo {filename}")
     print("\n")
 
@@ -145,7 +145,7 @@ if eleg == "1":
                 cleaned_name = filename
                 original_name = filename.replace('cleaned_', '')
                 os.rename(os.path.join(root, cleaned_name),
-                        os.path.join(root, original_name))
+                          os.path.join(root, original_name))
                 print(f"cambiando nombre de archivo {filename}")
 
     end_time = time.time()
@@ -544,15 +544,17 @@ elif eleg == "10":
                             matches = re.findall(pattern, line)
                             if matches:
                                 matches_by_line[i+1] = matches
-            
+
                     result_filename = os.path.join(root, filename + suffix)
                     with open(result_filename, 'w', encoding="utf-8") as f:
                         for line, matches in matches_by_line.items():
                             for match in matches:
-                                f.write(f'Encontrado en la línea {line} {match}\n')
+                                f.write(
+                                    f'Encontrado en la línea {line} {match}\n')
                                 total_matches += 1
-                                print(f'Encontrado en la línea {line} {match} \n')
-                    
+                                print(
+                                    f'Encontrado en la línea {line} {match} \n')
+
                     processed_files += 1
                     progress = processed_files / file_count * 100
                     print(f'Progreso: {progress:.2f}%')
@@ -614,6 +616,7 @@ elif eleg == "12":
         r'new "{#weekday_short}Thu"': 'new "{#weekday_short}週四"',
         r'new "{#weekday_short}卫星"': 'new "{#weekday_short}週六"',
         r'new "{#weekday_short}Sun"': 'new "{#weekday_short}週日"',
+        r'new "{#weekday_short}太阳"': 'new "{#weekday_short}週日"',
         r'new "{#month_short}Jan"': 'new "{#month_short}一月"',
         r'new "{#month_short}Mar"': 'new "{#month_short}三月"',
         r'new "{#month_short}Jun"': 'new "{#month_short}六月"',
@@ -622,6 +625,16 @@ elif eleg == "12":
         r'new "{#month_short}Oct"': 'new "{#month_short}十月"',
         r'new "{#month_short}Nov"': 'new "{#month_short}十一月"',
         r'new "{#month_short}Dec"': 'new "{#month_short}十二月"',
+        r'new "{#month}January"': 'new "{#month}一月"',
+        r'new "{#month}February"': 'new "{#month}二月"',
+        r'new "{#month}March"': 'new "{#month}三月"',
+        r'new "{#month}May"': 'new "{#month}五月"',
+        r'new "{#month}July"': 'new "{#month}七月"',
+        r'new "{#month}August"': 'new "{#month}八月"',
+        r'new "{#month}September"': 'new "{#month}九月"',
+        r'new "{#month}&lt;&gt;月"': 'new "{#month}十一月"',
+        r'new "{#month_short}Apr"': 'new "{#month_short}四月"',
+        r'new "{#month_short}君"': 'new "{#month_short}六月"',
         r'"shift\+C"': "'shift+C'",
         r'"alt\+shift\+V"': "'alt+shift+V'",
         r'"v"': "'v'",
@@ -916,9 +929,9 @@ elif eleg == "21":
         r'new "@@,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"': 'new "@@{#file_time}%A, %B %d %Y, %H:%M"',
         r'new "@@其他"': 'new "@@<"',
         r'new "@@问题"': 'new "@@{#quick_page}Q',
-    #     r'new "@@%A, %B %d %Y, %H:%M"': 'new "{#file_time}%A, %B %d %Y, %H:%M"',
-    #     r'new "@@A. El"': 'new "{#auto_page}A"',
-    #     r'new "@@Q. El"': 'new "{#auto_page}Q"',
+        #     r'new "@@%A, %B %d %Y, %H:%M"': 'new "{#file_time}%A, %B %d %Y, %H:%M"',
+        #     r'new "@@A. El"': 'new "{#auto_page}A"',
+        #     r'new "@@Q. El"': 'new "{#auto_page}Q"',
     }
 
     lineas = []
@@ -934,40 +947,48 @@ elif eleg == "21":
             f.write(l)
 elif eleg == "22":
     import os
-    import re 
+    import re
     from tqdm import tqdm
-
     # for root, dirs, files in os.walk("."):
     files = os.listdir(".")
     for file in tqdm(files):
-        
         if file.endswith(".txt"):
-        
             input_file = os.path.join(file)
             output_file = input_file.replace(".txt", "_salida.txt")
-            
-            with open(input_file) as f_input, open(output_file, "w") as f_output:
-            
+            print(input_file)
+            print(output_file)
+            with open(input_file, "r", encoding="utf-8") as f_input, open(output_file, "w", encoding="utf-8") as f_output:
                 for line in f_input:
-                
+                    # if re.match(r"Encontrado en la línea \d+", line):
+                    #     current_line = int(re.search(r"\d+", line).group())
+                    #     current_line2 = current_line + 1
+                    #     next_line = next(f_input)
+                    #     if current_line2 == current_line + 1:
+                    #         print(line)
+                    #         print(next_line)
+                    #         f_output.write(line)
+                    #         f_output.write(next_line)
+                    #         f_output.write("\n")
+                    #     else:
+                    #         print("B")
+                    # else:
+                    #     f_output.write(line)
                     if re.match(r"Encontrado en la línea \d+", line):
-                        
                         current_line = int(re.search(r"\d+", line).group())
                         current_line2 = current_line + 1
-                        next_line = next(f_input)
-                        
+                        # next_line = next(f_input)
                         if current_line2 == current_line + 1:
-                            print (line)
-                            print (next_line)
+                            next_line = next(f_input)
+                            print(line)
+                            print(next_line)
                             f_output.write(line)
                             f_output.write(next_line)
                             f_output.write("\n")
                         else:
-                            print ("B")
-                        
+                            print("B")
                     else:
                         f_output.write(line)
-                
+
         print("Proceso completado")
 elif eleg == "23":
     print("ok23")
